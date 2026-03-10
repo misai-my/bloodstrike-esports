@@ -1,1 +1,530 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blood Strike — Striker Skill Introduction</title>
+  <style>
+    :root{
+      --bg:#060b14;
+      --bg2:#091423;
+      --line:rgba(132,190,255,.16);
+      --ink:#eef6ff;
+      --muted:#9fb1cc;
+      --blue:#50d8ff;
+      --yellow:#f8ea43;
+      --shadow:0 24px 64px rgba(0,0,0,.46);
+      --radius:24px;
+      --radius-lg:32px;
+      --max:1480px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Inter,Segoe UI,Roboto,Arial,sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(circle at top center, rgba(73,153,255,.22), transparent 28%),
+        radial-gradient(circle at 80% 16%, rgba(80,216,255,.12), transparent 22%),
+        linear-gradient(180deg, #08111f 0%, #050a12 100%);
+      overflow-x:hidden;
+    }
+
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      background:
+        linear-gradient(115deg, rgba(255,255,255,.025), transparent 22%),
+        repeating-linear-gradient(90deg, rgba(255,255,255,.02) 0 1px, transparent 1px 96px),
+        repeating-linear-gradient(180deg, rgba(255,255,255,.018) 0 1px, transparent 1px 72px);
+      pointer-events:none;
+      z-index:0;
+    }
+
+    img{display:block;max-width:100%}
+    button{font:inherit}
+
+    .wrap{
+      position:relative;
+      z-index:1;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:28px;
+    }
+
+    .section{
+      width:min(var(--max), 100%);
+    }
+
+    .section-head{
+      display:flex;
+      align-items:end;
+      justify-content:space-between;
+      gap:24px;
+      margin-bottom:18px;
+    }
+
+    .label{
+      color:#8cefff;
+      text-transform:uppercase;
+      letter-spacing:.18em;
+      font-size:.72rem;
+      font-weight:800;
+    }
+
+    .section-head h1{
+      margin:8px 0 0;
+      font-size:clamp(1.9rem, 3.4vw, 3.4rem);
+      text-transform:uppercase;
+      letter-spacing:-.03em;
+    }
+
+    .section-head p{
+      margin:0;
+      max-width:720px;
+      color:var(--muted);
+      line-height:1.65;
+    }
+
+    .strikers-layout{
+      display:grid;
+      grid-template-columns:.92fr 1.08fr;
+      gap:18px;
+      align-items:stretch;
+    }
+
+    .striker-showcase,
+    .striker-roster{
+      border-radius:30px;
+      border:1px solid var(--line);
+      background:linear-gradient(180deg, rgba(11,22,40,.88), rgba(7,14,26,.96));
+      box-shadow:var(--shadow);
+    }
+
+    .striker-showcase{
+      padding:22px;
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+    }
+
+    .striker-hero{
+      position:relative;
+      min-height:460px;
+      border-radius:26px;
+      overflow:hidden;
+      background:
+        radial-gradient(circle at 50% 20%, rgba(80,216,255,.28), transparent 28%),
+        linear-gradient(180deg, rgba(19,44,77,.72), rgba(7,14,26,.96));
+      border:1px solid rgba(255,255,255,.08);
+      display:flex;
+      align-items:flex-end;
+      justify-content:center;
+      padding:18px;
+    }
+
+    .striker-hero img{
+      width:min(92%, 560px);
+      max-height:420px;
+      object-fit:contain;
+      filter:drop-shadow(0 24px 34px rgba(0,0,0,.48));
+    }
+
+    .striker-copy h2{
+      margin:10px 0 8px;
+      font-size:2rem;
+      text-transform:uppercase;
+      letter-spacing:.04em;
+    }
+
+    .striker-copy p{
+      margin:0;
+      color:var(--muted);
+      line-height:1.72;
+      font-size:1rem;
+    }
+
+    .skill-grid{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0,1fr));
+      gap:12px;
+    }
+
+    .skill-card{
+      padding:14px;
+      border-radius:20px;
+      background:rgba(255,255,255,.03);
+      border:1px solid rgba(255,255,255,.08);
+      display:grid;
+      grid-template-columns:66px 1fr;
+      gap:12px;
+      align-items:center;
+    }
+
+    .skill-icon{
+      width:66px;
+      height:66px;
+      border-radius:16px;
+      background:linear-gradient(135deg, rgba(80,216,255,.18), rgba(255,182,45,.18));
+      display:grid;
+      place-items:center;
+      border:1px solid rgba(255,255,255,.1);
+      overflow:hidden;
+      padding:6px;
+    }
+
+    .skill-icon img{
+      width:100%;
+      height:100%;
+      object-fit:contain;
+    }
+
+    .skill-card strong{
+      display:block;
+      margin-bottom:4px;
+      font-size:1rem;
+    }
+
+    .skill-card span{
+      color:var(--muted);
+      font-size:.9rem;
+      line-height:1.55;
+    }
+
+    .striker-roster{
+      padding:22px;
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+    }
+
+    .roster-header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+
+    .mini-note{
+      color:var(--muted);
+      font-size:.95rem;
+    }
+
+    .roster-grid{
+      display:grid;
+      grid-template-columns:repeat(3, minmax(0,1fr));
+      gap:12px;
+    }
+
+    .roster-btn{
+      min-height:88px;
+      border-radius:20px;
+      background:rgba(255,255,255,.03);
+      border:1px solid rgba(255,255,255,.08);
+      color:#dce9ff;
+      cursor:pointer;
+      padding:12px;
+      text-align:left;
+      transition:.2s ease;
+      display:grid;
+      grid-template-columns:54px 1fr;
+      align-items:center;
+      gap:12px;
+    }
+
+    .roster-btn:hover,
+    .roster-btn.active{
+      border-color:rgba(248,234,67,.34);
+      background:linear-gradient(135deg, rgba(248,234,67,.16), rgba(80,216,255,.08));
+      color:#fff7bf;
+      transform:translateY(-1px);
+    }
+
+    .roster-btn img{
+      width:54px;
+      height:54px;
+      object-fit:contain;
+      filter:drop-shadow(0 10px 16px rgba(0,0,0,.28));
+    }
+
+    .roster-btn strong{
+      display:block;
+      font-size:.98rem;
+      margin-bottom:4px;
+      text-transform:uppercase;
+    }
+
+    .roster-btn span{
+      color:var(--muted);
+      font-size:.82rem;
+      line-height:1.45;
+    }
+
+    @media (max-width: 1180px){
+      .strikers-layout{grid-template-columns:1fr}
+      .roster-grid{grid-template-columns:repeat(2, minmax(0,1fr))}
+    }
+
+    @media (max-width: 860px){
+      .wrap{padding:16px}
+      .section-head{align-items:start;flex-direction:column}
+      .skill-grid,
+      .roster-grid{grid-template-columns:1fr}
+      .striker-hero{min-height:340px}
+      .striker-hero img{max-height:300px}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <div class="label">Striker Section</div>
+          <h1>Skill Introduction</h1>
+        </div>
+        <p>Select a striker to update the portrait, skill icons, and skill names using your local files under <code>img/striker</code> and <code>img/skills</code>.</p>
+      </div>
+
+      <div class="strikers-layout">
+        <div class="striker-showcase">
+          <div class="striker-hero">
+            <img id="strikerImage" src="img/striker/katya.png" alt="Katya striker image">
+          </div>
+
+          <div class="striker-copy">
+            <div class="label">Skill Introduction</div>
+            <h2 id="strikerName">Katya</h2>
+            <p id="strikerDesc">Katya is a fast-entry striker built around explosive mobility, sudden pressure, and stylish close-out potential.</p>
+          </div>
+
+          <div class="skill-grid">
+            <div class="skill-card">
+              <div class="skill-icon"><img id="skillImg1" src="img/skills/jn36_59d0b20.png" alt="Arc Kunai icon"></div>
+              <div>
+                <strong id="skillName1">Arc Kunai</strong>
+                <span id="skillDesc1">Throw an energy kunai to pressure space and force enemy movement.</span>
+              </div>
+            </div>
+            <div class="skill-card">
+              <div class="skill-icon"><img id="skillImg2" src="img/skills/jn37_8a08289.png" alt="Phoenix Sky Dance icon"></div>
+              <div>
+                <strong id="skillName2">Phoenix Sky Dance</strong>
+                <span id="skillDesc2">Chain into a mobility-heavy follow-up that lets Katya close distance or reposition quickly.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="striker-roster">
+          <div class="roster-header">
+            <div>
+              <div class="label">Selectable Strikers</div>
+              <div class="mini-note">Tap a striker button to update the spotlight.</div>
+            </div>
+          </div>
+
+          <div class="roster-grid" id="rosterGrid">
+            <button class="roster-btn active" data-striker="katya"><img src="img/striker/katya.png" alt="Katya"><div><strong>Katya</strong><span>Arc Kunai / Phoenix Sky Dance</span></div></button>
+            <button class="roster-btn" data-striker="ethan"><img src="img/striker/ethan.png" alt="Ethan"><div><strong>Ethan</strong><span>Protection Matrix / Power Slide</span></div></button>
+            <button class="roster-btn" data-striker="ran"><img src="img/striker/ran.png" alt="Ran"><div><strong>Ran</strong><span>Ice Barrier / Cryomancy</span></div></button>
+            <button class="roster-btn" data-striker="jet"><img src="img/striker/jet.png" alt="Jet"><div><strong>Jet</strong><span>Missile Bombardment / Grenade Fanatic</span></div></button>
+            <button class="roster-btn" data-striker="nova"><img src="img/striker/nova.png" alt="Nova"><div><strong>Nova</strong><span>Toxic Grenade / Poison Master</span></div></button>
+            <button class="roster-btn" data-striker="kraken"><img src="img/striker/kraken.png" alt="Kraken"><div><strong>Kraken</strong><span>Vortex / Scythe</span></div></button>
+            <button class="roster-btn" data-striker="val"><img src="img/striker/val.png" alt="Val"><div><strong>Val</strong><span>Dynamic Detection Field / Swift Mark</span></div></button>
+            <button class="roster-btn" data-striker="spike"><img src="img/striker/spike.png" alt="Spike"><div><strong>Spike</strong><span>Assassination State / Charm</span></div></button>
+            <button class="roster-btn" data-striker="hank"><img src="img/striker/hank.png" alt="Hank"><div><strong>Hank</strong><span>Defensive Turret / Head-on Fight</span></div></button>
+            <button class="roster-btn" data-striker="emt"><img src="img/striker/emt.png" alt="EMT"><div><strong>EMT</strong><span>Healing Beacon / Virtuoso Medic</span></div></button>
+            <button class="roster-btn" data-striker="blast"><img src="img/striker/blast.png" alt="Blast"><div><strong>Blast</strong><span>Chaser Bomb / Fireworks</span></div></button>
+            <button class="roster-btn" data-striker="nacho"><img src="img/striker/nacho.png" alt="Nacho"><div><strong>Nacho</strong><span>Hellfire / The Penitent Eyes</span></div></button>
+            <button class="roster-btn" data-striker="zero"><img src="img/striker/zero.png" alt="Zero"><div><strong>Zero</strong><span>Shadowstrike / Sword Master</span></div></button>
+            <button class="roster-btn" data-striker="volt"><img src="img/striker/volt.png" alt="Volt"><div><strong>Volt</strong><span>Electromagnetic Pulse / Coursing Currents</span></div></button>
+            <button class="roster-btn" data-striker="emma"><img src="img/striker/emma.png" alt="Emma"><div><strong>Emma</strong><span>Beetle Drone / First Aid</span></div></button>
+            <button class="roster-btn" data-striker="kainda"><img src="img/striker/kainda.png" alt="Kainda"><div><strong>Kainda</strong><span>Phasing Arrow / Scouting Arrow</span></div></button>
+            <button class="roster-btn" data-striker="jack"><img src="img/striker/jack.png" alt="Jack"><div><strong>Jack</strong><span>Scare Box / Party Bonanza</span></div></button>
+            <button class="roster-btn" data-striker="lucian"><img src="img/striker/lucian.png" alt="Lucian"><div><strong>Lucian</strong><span>Feigned Slumber / Echolocation</span></div></button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const strikerData = {
+      ethan: {
+        name: 'Ethan',
+        image: 'img/striker/ethan.png',
+        desc: 'Ethan is a protection-focused striker who uses mobility and defensive pressure to survive direct engagements.',
+        skill1: { name: 'Protection Matrix', image: 'img/skills/jn1_4b08f38.png', desc: 'Deploy a defensive matrix to help absorb pressure and create safer contest windows.' },
+        skill2: { name: 'Power Slide', image: 'img/skills/jn2_a9b1fee.png', desc: 'A fast mobility tool that lets Ethan reposition and challenge with tempo.' }
+      },
+      ran: {
+        name: 'Ran',
+        image: 'img/striker/ran.png',
+        desc: 'Ran thrives on space control and icy disruption, forcing enemies to fight on awkward terms.',
+        skill1: { name: 'Ice Barrier', image: 'img/skills/jn20_8e32c2d.png', desc: 'Create a barrier that blocks routes and changes how enemies can take fights.' },
+        skill2: { name: 'Cryomancy', image: 'img/skills/jn21_37c5484.png', desc: 'Adds cold-based control value that supports careful, structured engagements.' }
+      },
+      jet: {
+        name: 'Jet',
+        image: 'img/striker/jet.png',
+        desc: 'Jet is an explosive-heavy striker built to crack setups and punish teams holding tight positions.',
+        skill1: { name: 'Missile Bombardment', image: 'img/skills/jn3_7a72ed8.png', desc: 'Launch explosive pressure to flush enemies out of cover and break stagnant fights.' },
+        skill2: { name: 'Grenade Fanatic', image: 'img/skills/jn4_3d7a87e.png', desc: 'Improves explosive efficiency and rewards aggressive utility timing.' }
+      },
+      nova: {
+        name: 'Nova',
+        image: 'img/striker/nova.png',
+        desc: 'Nova excels at toxic area denial and wins fights by dragging enemies through controlled damage zones.',
+        skill1: { name: 'Toxic Grenade', image: 'img/skills/jn5_7b434b9.png', desc: 'Throw toxic utility to block routes, deny cover, and force bad repositioning.' },
+        skill2: { name: 'Poison Master', image: 'img/skills/jn6_144afda.png', desc: 'Amplifies poison-based pressure and helps Nova keep control over longer fights.' }
+      },
+      kraken: {
+        name: 'Kraken',
+        image: 'img/striker/kraken.png',
+        desc: 'Kraken is a disruptive close-fight striker who turns enemy formations into chaos.',
+        skill1: { name: 'Vortex', image: 'img/skills/jn7_8e60d05.png', desc: 'Disrupt enemy positioning and create openings for fast team follow-up.' },
+        skill2: { name: 'Scythe', image: 'img/skills/jn8_8728a07.png', desc: 'Supports lethal close-range finishing and punishes exposed targets.' }
+      },
+      val: {
+        name: 'Val',
+        image: 'img/striker/val.png',
+        desc: 'Val gives teams stronger information control and helps convert scans into decisive pushes.',
+        skill1: { name: 'Dynamic Detection Field', image: 'img/skills/jn9_8abdeb7.png', desc: 'Reveal nearby threats and reduce uncertainty before the commit.' },
+        skill2: { name: 'Swift Mark', image: 'img/skills/jn10_c321207.png', desc: 'Improves target tracking and supports quick follow-up after first contact.' }
+      },
+      spike: {
+        name: 'Spike',
+        image: 'img/striker/spike.png',
+        desc: 'Spike is an assassin-style striker made for sudden engagements and slippery kill pressure.',
+        skill1: { name: 'Assassination State', image: 'img/skills/jn11_494d65c.png', desc: 'Enter an assassination-focused state to threaten fast picks and isolated targets.' },
+        skill2: { name: 'Charm', image: 'img/skills/jn12_40965e0.png', desc: 'Adds deceptive close-fight value and helps Spike manipulate pressure windows.' }
+      },
+      hank: {
+        name: 'Hank',
+        image: 'img/striker/hank.png',
+        desc: 'Hank is a sturdy hold-position striker who excels when locking down lanes and absorbing pressure.',
+        skill1: { name: 'Defensive Turret', image: 'img/skills/jn13_5e3168b.png', desc: 'Deploy a turret to defend space and punish direct enemy entries.' },
+        skill2: { name: 'Head-on Fight', image: 'img/skills/jn14_eb24852.png', desc: 'Rewards straight-up contests and stronger front-facing duels.' }
+      },
+      emt: {
+        name: 'EMT',
+        image: 'img/striker/emt.png',
+        desc: 'EMT is a support-focused striker designed to stabilize teams and increase survivability mid-fight.',
+        skill1: { name: 'Healing Beacon', image: 'img/skills/jn15_0fe3b9d.png', desc: 'Place a healing source that helps the squad recover and re-enter fights.' },
+        skill2: { name: 'Virtuoso Medic', image: 'img/skills/jn16_3cce279.png', desc: 'Improves healing efficiency and makes resets safer and faster.' }
+      },
+      blast: {
+        name: 'Blast',
+        image: 'img/striker/blast.png',
+        desc: 'Blast brings explosive tempo and flashy disruption that can swing chaotic mid-round fights.',
+        skill1: { name: 'Chaser Bomb', image: 'img/skills/jn17_6ae4b65.png', desc: 'Deploy a bomb that pressures movement and keeps enemies from escaping cleanly.' },
+        skill2: { name: 'Fireworks', image: 'img/skills/jn18_e3bde21.png', desc: 'Adds extra explosive payoff and rewards aggressive timing.' }
+      },
+      nacho: {
+        name: 'Nacho',
+        image: 'img/striker/nacho.png',
+        desc: 'Nacho is a punishment-heavy striker whose tools are built for relentless chase and direct damage pressure.',
+        skill1: { name: 'Hellfire', image: 'img/skills/jn22_0f646cc.png', desc: 'Unleash intense offensive pressure that burns enemies out of safe positions.' },
+        skill2: { name: 'The Penitent Eyes', image: 'img/skills/jn23_50de7f3.png', desc: 'Improves punishment potential and helps Nacho capitalize on weakened targets.' }
+      },
+      zero: {
+        name: 'Zero',
+        image: 'img/striker/zero.png',
+        desc: 'Zero is a blade-focused assassin who thrives on fast entries, isolation pressure, and sharp finishes.',
+        skill1: { name: 'Shadowstrike', image: 'img/skills/jn24_ab6db7b.png', desc: 'Dash or cut through enemy space to create immediate engage pressure.' },
+        skill2: { name: 'Sword Master', image: 'img/skills/jn25_fd5f2e3.png', desc: 'Enhances close-range blade style play and rewards committed entries.' }
+      },
+      volt: {
+        name: 'Volt',
+        image: 'img/striker/volt.png',
+        desc: 'Volt disrupts enemy systems and setups, making him ideal for utility-breaking initiations.',
+        skill1: { name: 'Electromagnetic Pulse', image: 'img/skills/jn26_b6d94e3.png', desc: 'Release an EMP-style effect to disrupt enemy equipment and control tools.' },
+        skill2: { name: 'Coursing Currents', image: 'img/skills/jn27_886e1a4.png', desc: 'Adds more tempo and utility pressure to help Volt maintain momentum.' }
+      },
+      emma: {
+        name: 'Emma',
+        image: 'img/striker/emma.png',
+        desc: 'Emma combines scouting utility and sustain value, helping teams gather info and recover faster.',
+        skill1: { name: 'Beetle Drone', image: 'img/skills/jn28_7f271b3.png', desc: 'Send out a drone tool to scout, distract, or pressure enemy positioning.' },
+        skill2: { name: 'First Aid', image: 'img/skills/jn29_02fac88.png', desc: 'Improves recovery options and helps Emma keep the team alive through messy fights.' }
+      },
+      kainda: {
+        name: 'Kainda',
+        image: 'img/striker/kainda.png',
+        desc: 'Kainda is a ranged tactical striker who controls angles and gathers high-value information from distance.',
+        skill1: { name: 'Phasing Arrow', image: 'img/skills/jn30_3d97600.png', desc: 'Fire an arrow tool that influences angles and adds ranged tactical value.' },
+        skill2: { name: 'Scouting Arrow', image: 'img/skills/jn31_ea2567e.png', desc: 'Reveal or scout enemy presence to make team rotations and commits cleaner.' }
+      },
+      jack: {
+        name: 'Jack',
+        image: 'img/striker/jack.png',
+        desc: 'Jack is a trickster disruptor who creates hesitation and confusion before a hard push lands.',
+        skill1: { name: 'Scare Box', image: 'img/skills/jn32_d6b141a.png', desc: 'Deploy a deceptive tool that forces hesitation and awkward reactions.' },
+        skill2: { name: 'Party Bonanza', image: 'img/skills/jn33_fd72c73.png', desc: 'Adds chaos and tempo swing potential once the fight begins.' }
+      },
+      lucian: {
+        name: 'Lucian',
+        image: 'img/striker/lucian.png',
+        desc: 'Lucian is a slippery survival specialist who thrives on deception, awareness, and turning bad spots into escapes.',
+        skill1: { name: 'Feigned Slumber', image: 'img/skills/jn34_0b3fc4b.png', desc: 'Use deceptive survival tools to bait enemies into overcommitting.' },
+        skill2: { name: 'Echolocation', image: 'img/skills/jn35_8163da4.png', desc: 'Improves awareness around hidden threats and helps Lucian read the fight better.' }
+      },
+      katya: {
+        name: 'Katya',
+        image: 'img/striker/katya.png',
+        desc: 'Katya is a fast-entry striker built around explosive mobility, sudden pressure, and stylish close-out potential.',
+        skill1: { name: 'Arc Kunai', image: 'img/skills/jn36_59d0b20.png', desc: 'Throw an energy kunai to pressure space and force enemy movement.' },
+        skill2: { name: 'Phoenix Sky Dance', image: 'img/skills/jn37_8a08289.png', desc: 'Chain into a mobility-heavy follow-up that lets Katya close distance or reposition quickly.' }
+      }
+    };
+
+    const strikerButtons = document.querySelectorAll('.roster-btn');
+    const strikerName = document.getElementById('strikerName');
+    const strikerDesc = document.getElementById('strikerDesc');
+    const strikerImage = document.getElementById('strikerImage');
+    const skillName1 = document.getElementById('skillName1');
+    const skillDesc1 = document.getElementById('skillDesc1');
+    const skillImg1 = document.getElementById('skillImg1');
+    const skillName2 = document.getElementById('skillName2');
+    const skillDesc2 = document.getElementById('skillDesc2');
+    const skillImg2 = document.getElementById('skillImg2');
+
+    function setStriker(key) {
+      const data = strikerData[key];
+      if (!data) return;
+
+      strikerName.textContent = data.name;
+      strikerDesc.textContent = data.desc;
+      strikerImage.src = data.image;
+      strikerImage.alt = `${data.name} striker image`;
+      skillName1.textContent = data.skill1.name;
+      skillDesc1.textContent = data.skill1.desc;
+      skillImg1.src = data.skill1.image;
+      skillImg1.alt = `${data.skill1.name} icon`;
+      skillName2.textContent = data.skill2.name;
+      skillDesc2.textContent = data.skill2.desc;
+      skillImg2.src = data.skill2.image;
+      skillImg2.alt = `${data.skill2.name} icon`;
+    }
+
+    strikerButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const key = btn.dataset.striker;
+        strikerButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        setStriker(key);
+      });
+    });
+
+    setStriker('katya');
+  </script>
+</body>
+</html>
