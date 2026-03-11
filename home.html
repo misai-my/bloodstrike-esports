@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Blood Strike</title>
+  <title>Blood Strike — Striker Skill Introduction</title>
   <style>
     :root{
       --bg:#060b14;
@@ -223,6 +223,162 @@
       font-size:.92rem;
     }
 
+    .map-layout{
+      display:grid;
+      grid-template-columns:300px 1fr;
+      gap:18px;
+      margin-top:16px;
+      align-items:stretch;
+    }
+
+    .map-sidebar,
+    .map-viewer{
+      border-radius:24px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.03);
+      min-height:560px;
+    }
+
+    .map-sidebar{
+      padding:18px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+
+    .map-btn{
+      width:100%;
+      min-height:78px;
+      padding:14px 16px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.03);
+      color:#dce9ff;
+      cursor:pointer;
+      text-align:left;
+      transition:.22s ease;
+    }
+
+    .map-btn strong{
+      display:block;
+      font-size:1rem;
+      margin-bottom:6px;
+      text-transform:uppercase;
+      letter-spacing:.04em;
+    }
+
+    .map-btn span{
+      display:block;
+      color:var(--muted);
+      font-size:.88rem;
+      line-height:1.5;
+    }
+
+    .map-btn:hover,
+    .map-btn.active{
+      border-color:rgba(248,234,67,.34);
+      background:linear-gradient(135deg, rgba(248,234,67,.16), rgba(80,216,255,.08));
+      color:#fff7bf;
+      transform:translateY(-1px);
+    }
+
+    .map-viewer{
+      padding:18px;
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+    }
+
+    .map-toolbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+
+    .map-toolbar-left h2{
+      margin:6px 0 0;
+      font-size:1.6rem;
+      text-transform:uppercase;
+      letter-spacing:.03em;
+    }
+
+    .map-toolbar-left p{
+      margin:6px 0 0;
+      color:var(--muted);
+      line-height:1.55;
+      font-size:.92rem;
+      max-width:760px;
+    }
+
+    .map-controls{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+
+    .map-control-btn{
+      min-width:44px;
+      min-height:44px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.04);
+      color:#eef6ff;
+      cursor:pointer;
+      font-weight:800;
+      font-size:1rem;
+    }
+
+    .map-stage{
+      position:relative;
+      flex:1;
+      min-height:420px;
+      border-radius:22px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.08);
+      background:
+        radial-gradient(circle at 50% 20%, rgba(80,216,255,.16), transparent 22%),
+        linear-gradient(180deg, rgba(19,44,77,.72), rgba(7,14,26,.96));
+      cursor:grab;
+      touch-action:none;
+    }
+
+    .map-stage.dragging{cursor:grabbing}
+
+    .map-canvas{
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      transform-origin:center center;
+      will-change:transform;
+    }
+
+    .map-canvas img{
+      width:min(100%, 1100px);
+      max-width:none;
+      user-select:none;
+      -webkit-user-drag:none;
+      pointer-events:none;
+      filter:drop-shadow(0 18px 30px rgba(0,0,0,.32));
+    }
+
+    .map-empty{
+      position:absolute;
+      inset:auto 18px 18px 18px;
+      padding:12px 14px;
+      border-radius:16px;
+      background:rgba(7,15,28,.78);
+      border:1px solid rgba(255,255,255,.08);
+      color:var(--muted);
+      font-size:.88rem;
+      line-height:1.5;
+      z-index:2;
+      backdrop-filter:blur(10px);
+    }
+
     .section-head{
       display:flex;
       align-items:end;
@@ -436,6 +592,9 @@
       .strikers-layout{grid-template-columns:1fr}
       .roster-grid{grid-template-columns:repeat(2, minmax(0,1fr))}
       .placeholder-grid{grid-template-columns:1fr}
+      .map-layout{grid-template-columns:1fr}
+      .map-sidebar,
+      .map-viewer{min-height:auto}
     }
 
     @media (max-width: 860px){
@@ -480,7 +639,7 @@
       <div class="side-top">
         <div class="logo-box">
           <img src="https://www.blood-strike.com/pc/gw/20230718104343/img/logo_810802e.png" alt="Blood Strike logo">
-          <small>Reference</small>
+          <small>Striker Skill Intro</small>
         </div>
 
         <div class="slot-nav">
@@ -547,7 +706,7 @@
           </div>
 
           <div class="roster-grid" id="rosterGrid">
-            <button class="roster-btn active" data-striker="blast"><img src="img/striker/blast.png" alt="Blast"><div><strong>Blast</strong><span>Chaser Bomb / Fireworks</span></div></button>
+            <button class="roster-btn" data-striker="blast"><img src="img/striker/blast.png" alt="Blast"><div><strong>Blast</strong><span>Chaser Bomb / Fireworks</span></div></button>
             <button class="roster-btn" data-striker="emma"><img src="img/striker/emma.png" alt="Emma"><div><strong>Emma</strong><span>Beetle Drone / First Aid</span></div></button>
             <button class="roster-btn" data-striker="emt"><img src="img/striker/emt.png" alt="EMT"><div><strong>EMT</strong><span>Healing Beacon / Virtuoso Medic</span></div></button>
             <button class="roster-btn" data-striker="ethan"><img src="img/striker/ethan.png" alt="Ethan"><div><strong>Ethan</strong><span>Protection Matrix / Power Slide</span></div></button>
@@ -555,7 +714,7 @@
             <button class="roster-btn" data-striker="jack"><img src="img/striker/jack.png" alt="Jack"><div><strong>Jack</strong><span>Scare Box / Party Bonanza</span></div></button>
             <button class="roster-btn" data-striker="jet"><img src="img/striker/jet.png" alt="Jet"><div><strong>Jet</strong><span>Missile Bombardment / Grenade Fanatic</span></div></button>
             <button class="roster-btn" data-striker="kainda"><img src="img/striker/kainda.png" alt="Kainda"><div><strong>Kainda</strong><span>Phasing Arrow / Scouting Arrow</span></div></button>
-            <button class="roster-btn" data-striker="katya"><img src="img/striker/katya.png" alt="Katya"><div><strong>Katya</strong><span>Arc Kunai / Phoenix Sky Dance</span></div></button>
+            <button class="roster-btn active" data-striker="katya"><img src="img/striker/katya.png" alt="Katya"><div><strong>Katya</strong><span>Arc Kunai / Phoenix Sky Dance</span></div></button>
             <button class="roster-btn" data-striker="kraken"><img src="img/striker/kraken.png" alt="Kraken"><div><strong>Kraken</strong><span>Vortex / Scythe</span></div></button>
             <button class="roster-btn" data-striker="lucian"><img src="img/striker/lucian.png" alt="Lucian"><div><strong>Lucian</strong><span>Feigned Slumber / Echolocation</span></div></button>
             <button class="roster-btn" data-striker="nacho"><img src="img/striker/nacho.png" alt="Nacho"><div><strong>Nacho</strong><span>Hellfire / The Penitent Eyes</span></div></button>
@@ -577,21 +736,45 @@
             <div class="label">Slot 2</div>
             <h1>Map</h1>
           </div>
-          <p>This section is ready for map layouts, tactical callouts, rotation notes, or clickable location guides.</p>
+          <p>Choose a map on the left. The viewer on the right is ready for zooming and panning so you can inspect callouts and key locations.</p>
         </div>
 
-        <div class="placeholder-grid">
-          <div class="placeholder-box">
-            <strong>Map Overview</strong>
-            <span>Use this card for a large preview, map image, or mode-specific battlefield summary.</span>
+        <div class="map-layout">
+          <div class="map-sidebar">
+            <button class="map-btn active" type="button" data-map="deserted-valley">
+              <strong>Deserted Valley</strong>
+              <span>Large terrain overview placeholder for route, hotspot, and callout planning.</span>
+            </button>
+            <button class="map-btn" type="button" data-map="skyline-beach">
+              <strong>Skyline Beach</strong>
+              <span>Use this for coastal sightlines, urban points of interest, and rotation markers.</span>
+            </button>
+            <button class="map-btn" type="button" data-map="shutter-island">
+              <strong>Shutter Island</strong>
+              <span>Ready for island control zones, flank paths, and elevated positioning references.</span>
+            </button>
           </div>
-          <div class="placeholder-box">
-            <strong>Key Zones</strong>
-            <span>Add hot drops, control zones, sniper lanes, or objective-heavy areas here.</span>
-          </div>
-          <div class="placeholder-box">
-            <strong>Rotation Notes</strong>
-            <span>Reserve this for pathing advice, anchor points, choke points, or team movement cues.</span>
+
+          <div class="map-viewer">
+            <div class="map-toolbar">
+              <div class="map-toolbar-left">
+                <div class="label">Interactive Viewer</div>
+                <h2 id="mapTitle">Deserted Valley</h2>
+                <p id="mapDesc">Large terrain overview placeholder for route, hotspot, and callout planning.</p>
+              </div>
+              <div class="map-controls">
+                <button class="map-control-btn" type="button" id="mapZoomOut">−</button>
+                <button class="map-control-btn" type="button" id="mapReset">Reset</button>
+                <button class="map-control-btn" type="button" id="mapZoomIn">+</button>
+              </div>
+            </div>
+
+            <div class="map-stage" id="mapStage">
+              <div class="map-canvas" id="mapCanvas">
+                <img id="mapImage" src="img/maps/deserted-valley.png" alt="Deserted Valley map placeholder">
+              </div>
+              <div class="map-empty">Replace the placeholder files with your actual map images in <code>img/maps</code>: <strong>deserted-valley.png</strong>, <strong>skyline-beach.png</strong>, and <strong>shutter-island.png</strong>.</div>
+            </div>
           </div>
         </div>
       </div>
@@ -820,6 +1003,119 @@
     });
 
     setStriker('katya');
+
+    const mapData = {
+      'deserted-valley': {
+        title: 'Deserted Valley',
+        image: 'img/maps/deserted-valley.png',
+        desc: 'Large terrain overview placeholder for route, hotspot, and callout planning.'
+      },
+      'skyline-beach': {
+        title: 'Skyline Beach',
+        image: 'img/maps/skyline-beach.png',
+        desc: 'Use this for coastal sightlines, urban points of interest, and rotation markers.'
+      },
+      'shutter-island': {
+        title: 'Shutter Island',
+        image: 'img/maps/shutter-island.png',
+        desc: 'Ready for island control zones, flank paths, and elevated positioning references.'
+      }
+    };
+
+    const mapButtons = document.querySelectorAll('.map-btn');
+    const mapTitle = document.getElementById('mapTitle');
+    const mapDesc = document.getElementById('mapDesc');
+    const mapImage = document.getElementById('mapImage');
+    const mapStage = document.getElementById('mapStage');
+    const mapCanvas = document.getElementById('mapCanvas');
+    const mapZoomIn = document.getElementById('mapZoomIn');
+    const mapZoomOut = document.getElementById('mapZoomOut');
+    const mapReset = document.getElementById('mapReset');
+
+    let mapScale = 1;
+    let mapX = 0;
+    let mapY = 0;
+    let isDragging = false;
+    let dragStartX = 0;
+    let dragStartY = 0;
+
+    function renderMapTransform() {
+      mapCanvas.style.transform = `translate(${mapX}px, ${mapY}px) scale(${mapScale})`;
+    }
+
+    function resetMapView() {
+      mapScale = 1;
+      mapX = 0;
+      mapY = 0;
+      renderMapTransform();
+    }
+
+    function setMap(key) {
+      const data = mapData[key];
+      if (!data) return;
+      mapTitle.textContent = data.title;
+      mapDesc.textContent = data.desc;
+      mapImage.src = data.image;
+      mapImage.alt = `${data.title} map image`;
+      resetMapView();
+    }
+
+    mapButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const key = btn.dataset.map;
+        mapButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        setMap(key);
+      });
+    });
+
+    mapZoomIn?.addEventListener('click', () => {
+      mapScale = Math.min(4, +(mapScale + 0.2).toFixed(2));
+      renderMapTransform();
+    });
+
+    mapZoomOut?.addEventListener('click', () => {
+      mapScale = Math.max(0.6, +(mapScale - 0.2).toFixed(2));
+      renderMapTransform();
+    });
+
+    mapReset?.addEventListener('click', resetMapView);
+
+    mapStage?.addEventListener('pointerdown', (e) => {
+      isDragging = true;
+      dragStartX = e.clientX - mapX;
+      dragStartY = e.clientY - mapY;
+      mapStage.classList.add('dragging');
+      mapStage.setPointerCapture?.(e.pointerId);
+    });
+
+    mapStage?.addEventListener('pointermove', (e) => {
+      if (!isDragging) return;
+      mapX = e.clientX - dragStartX;
+      mapY = e.clientY - dragStartY;
+      renderMapTransform();
+    });
+
+    function endMapDrag(e) {
+      isDragging = false;
+      mapStage?.classList.remove('dragging');
+      if (e && mapStage?.hasPointerCapture?.(e.pointerId)) {
+        mapStage.releasePointerCapture(e.pointerId);
+      }
+    }
+
+    mapStage?.addEventListener('pointerup', endMapDrag);
+    mapStage?.addEventListener('pointerleave', endMapDrag);
+    mapStage?.addEventListener('pointercancel', endMapDrag);
+
+    mapStage?.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      const delta = e.deltaY > 0 ? -0.15 : 0.15;
+      mapScale = Math.max(0.6, Math.min(4, +(mapScale + delta).toFixed(2)));
+      renderMapTransform();
+    }, { passive: false });
+
+    setMap('deserted-valley');
   </script>
 </body>
 </html>
