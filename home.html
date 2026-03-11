@@ -1105,6 +1105,9 @@
     let touchStartY = 0;
     let pinchStartDistance = 0;
     let pinchStartScale = 1;
+    let lastTapTime = 0;
+    let lastTapX = 0;
+    let lastTapY = 0;
 
     function getFittedMapSize() {
       const stageW = mapStage?.clientWidth || 0;
@@ -1247,7 +1250,23 @@
         mapX = Math.round(mapX);
         mapY = Math.round(mapY);
       }
+
       if (!e.touches || e.touches.length === 0) {
+        if (e.changedTouches && e.changedTouches.length === 1) {
+          const now = Date.now();
+          const tapX = e.changedTouches[0].clientX;
+          const tapY = e.changedTouches[0].clientY;
+          const dist = Math.hypot(tapX - lastTapX, tapY - lastTapY);
+
+          if (now - lastTapTime < 320 && dist < 24) {
+            resetMapView();
+            lastTapTime = 0;
+          } else {
+            lastTapTime = now;
+            lastTapX = tapX;
+            lastTapY = tapY;
+          }
+        }
         endMapDrag();
       } else if (e.touches.length === 1) {
         isTouchPanning = true;
@@ -1281,6 +1300,11 @@
       mapScale = nextScale;
       renderMapTransform();
     }, { passive: false });
+
+    mapStage?.addEventListener('dblclick', (e) => {
+      e.preventDefault();
+      resetMapView();
+    });
 
     mapImage?.addEventListener('load', resetMapView);
     mapImage?.addEventListener('dragstart', (e) => e.preventDefault());
