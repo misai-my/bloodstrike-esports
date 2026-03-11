@@ -17,6 +17,7 @@
       --radius:24px;
       --radius-lg:32px;
       --max:1480px;
+      --sidebar-w:118px;
     }
 
     *{box-sizing:border-box}
@@ -47,9 +48,126 @@
     img{display:block;max-width:100%}
     button{font:inherit}
 
-    .wrap{
+    .app{
       position:relative;
       z-index:1;
+      min-height:100vh;
+      padding-left:var(--sidebar-w);
+    }
+
+    .side-nav{
+      position:fixed;
+      inset:0 auto 0 0;
+      width:var(--sidebar-w);
+      background:linear-gradient(180deg, rgba(8,16,29,.96), rgba(4,8,16,.92));
+      border-right:1px solid rgba(255,255,255,.08);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:space-between;
+      padding:18px 14px;
+      z-index:10;
+      backdrop-filter:blur(10px);
+    }
+
+    .side-top,
+    .side-bottom{
+      width:100%;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:14px;
+    }
+
+    .logo-box{
+      width:100%;
+      padding:14px 10px 18px;
+      border-radius:22px;
+      background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      border:1px solid rgba(255,255,255,.08);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:10px;
+      box-shadow:var(--shadow);
+    }
+
+    .logo-box img{
+      width:78px;
+      object-fit:contain;
+      filter:drop-shadow(0 10px 24px rgba(0,0,0,.35));
+    }
+
+    .logo-box small{
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:.18em;
+      font-size:.62rem;
+      text-align:center;
+      line-height:1.4;
+    }
+
+    .slot-nav{
+      width:100%;
+      display:grid;
+      gap:10px;
+    }
+
+    .slot-btn{
+      width:100%;
+      min-height:62px;
+      padding:10px 8px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.07);
+      background:rgba(255,255,255,.03);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      color:#dceaff;
+      font-size:.72rem;
+      line-height:1.2;
+      text-transform:uppercase;
+      font-weight:800;
+      letter-spacing:.08em;
+      transition:.25s ease;
+    }
+
+    .slot-btn .slot-num{
+      font-size:.62rem;
+      color:var(--muted);
+      letter-spacing:.16em;
+      margin-bottom:4px;
+    }
+
+    .slot-btn.active,
+    .slot-btn:hover{
+      transform:translateX(4px);
+      border-color:rgba(248,234,67,.36);
+      background:linear-gradient(135deg, rgba(248,234,67,.18), rgba(255,182,45,.08));
+      color:#fff8c6;
+    }
+
+    .slot-note{
+      width:100%;
+      padding:12px 10px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.07);
+      background:rgba(255,255,255,.03);
+      color:var(--muted);
+      text-align:center;
+      font-size:.68rem;
+      line-height:1.45;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+    }
+
+    .main{
+      min-height:100vh;
+    }
+
+    .wrap{
       min-height:100vh;
       display:flex;
       align-items:center;
@@ -276,24 +394,72 @@
     }
 
     @media (max-width: 860px){
+      .app{padding-left:0}
+      .side-nav{
+        position:sticky;
+        top:0;
+        width:100%;
+        height:auto;
+        inset:auto;
+        flex-direction:row;
+        align-items:flex-start;
+        justify-content:space-between;
+        gap:12px;
+        padding:14px;
+      }
+      .side-top,
+      .side-bottom{
+        width:auto;
+        flex-direction:row;
+        align-items:flex-start;
+        gap:10px;
+      }
+      .logo-box{width:auto;min-width:106px;padding:10px}
+      .logo-box img{width:58px}
+      .slot-nav{display:flex;flex-wrap:wrap;width:auto}
+      .slot-btn{min-width:100px;width:auto;padding:10px 12px}
+      .slot-note{width:auto;min-width:120px}
       .wrap{padding:16px}
       .section-head{align-items:start;flex-direction:column}
       .skill-grid,
       .roster-grid{grid-template-columns:1fr}
       .striker-hero{min-height:340px}
-      .striker-hero img{max-height:300px}
+      .striker-hero img,
+      .striker-hero video{max-height:300px}
     }
   </style>
 </head>
 <body>
-  <div class="wrap">
+  <div class="app">
+    <aside class="side-nav">
+      <div class="side-top">
+        <div class="logo-box">
+          <img src="https://www.blood-strike.com/pc/gw/20230718104343/img/logo_810802e.png" alt="Blood Strike logo">
+          <small>Striker Skill Intro</small>
+        </div>
+
+        <div class="slot-nav">
+          <button class="slot-btn active" type="button"><span class="slot-num">Slot 1</span>Striker</button>
+          <button class="slot-btn" type="button"><span class="slot-num">Slot 2</span>Reserved</button>
+          <button class="slot-btn" type="button"><span class="slot-num">Slot 3</span>Reserved</button>
+          <button class="slot-btn" type="button"><span class="slot-num">Slot 4</span>Reserved</button>
+        </div>
+      </div>
+
+      <div class="side-bottom">
+        <div class="slot-note">4 slots ready</div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="wrap">
     <section class="section">
       <div class="section-head">
         <div>
           <div class="label">Striker Section</div>
           <h1>Skill Introduction</h1>
         </div>
-        <p>Select a striker to update the skill video, skill icons, and skill names.</p>
+        <p>Select a striker to update the skill video, skill icons, and skill names using your local files under <code>img/striker</code> and <code>img/skills</code>.</p>
       </div>
 
       <div class="strikers-layout">
@@ -335,7 +501,7 @@
           </div>
 
           <div class="roster-grid" id="rosterGrid">
-            <button class="roster-btn active" data-striker="blast"><img src="img/striker/blast.png" alt="Blast"><div><strong>Blast</strong><span>Chaser Bomb / Fireworks</span></div></button>
+            <button class="roster-btn" data-striker="blast"><img src="img/striker/blast.png" alt="Blast"><div><strong>Blast</strong><span>Chaser Bomb / Fireworks</span></div></button>
             <button class="roster-btn" data-striker="emma"><img src="img/striker/emma.png" alt="Emma"><div><strong>Emma</strong><span>Beetle Drone / First Aid</span></div></button>
             <button class="roster-btn" data-striker="emt"><img src="img/striker/emt.png" alt="EMT"><div><strong>EMT</strong><span>Healing Beacon / Virtuoso Medic</span></div></button>
             <button class="roster-btn" data-striker="ethan"><img src="img/striker/ethan.png" alt="Ethan"><div><strong>Ethan</strong><span>Protection Matrix / Power Slide</span></div></button>
@@ -343,7 +509,7 @@
             <button class="roster-btn" data-striker="jack"><img src="img/striker/jack.png" alt="Jack"><div><strong>Jack</strong><span>Scare Box / Party Bonanza</span></div></button>
             <button class="roster-btn" data-striker="jet"><img src="img/striker/jet.png" alt="Jet"><div><strong>Jet</strong><span>Missile Bombardment / Grenade Fanatic</span></div></button>
             <button class="roster-btn" data-striker="kainda"><img src="img/striker/kainda.png" alt="Kainda"><div><strong>Kainda</strong><span>Phasing Arrow / Scouting Arrow</span></div></button>
-            <button class="roster-btn" data-striker="katya"><img src="img/striker/katya.png" alt="Katya"><div><strong>Katya</strong><span>Arc Kunai / Phoenix Sky Dance</span></div></button>
+            <button class="roster-btn active" data-striker="katya"><img src="img/striker/katya.png" alt="Katya"><div><strong>Katya</strong><span>Arc Kunai / Phoenix Sky Dance</span></div></button>
             <button class="roster-btn" data-striker="kraken"><img src="img/striker/kraken.png" alt="Kraken"><div><strong>Kraken</strong><span>Vortex / Scythe</span></div></button>
             <button class="roster-btn" data-striker="lucian"><img src="img/striker/lucian.png" alt="Lucian"><div><strong>Lucian</strong><span>Feigned Slumber / Echolocation</span></div></button>
             <button class="roster-btn" data-striker="nacho"><img src="img/striker/nacho.png" alt="Nacho"><div><strong>Nacho</strong><span>Hellfire / The Penitent Eyes</span></div></button>
@@ -357,6 +523,8 @@
         </div>
       </div>
     </section>
+      </div>
+    </main>
   </div>
 
   <script>
