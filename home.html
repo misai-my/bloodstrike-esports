@@ -353,7 +353,6 @@
       display:flex;
       align-items:center;
       justify-content:center;
-      transform-origin:center center;
       will-change:transform;
     }
 
@@ -776,12 +775,10 @@
               <div class="map-canvas" id="mapCanvas">
                 <img id="mapImage" src="img/maps/deserted-valley.png" alt="Deserted Valley map placeholder">
               </div>
-              <div class="map-empty">Replace the placeholder files with your actual map images in <code>img/maps</code>: <strong>deserted-valley.png</strong>, <strong>skyline-beach.png</strong>, and <strong>shutter-island.png</strong>.</div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
     <section class="section" id="weapon-section">
       <div class="content-card">
@@ -1042,7 +1039,38 @@
     let dragStartX = 0;
     let dragStartY = 0;
 
+    function getFittedMapSize() {
+      const stageW = mapStage?.clientWidth || 0;
+      const stageH = mapStage?.clientHeight || 0;
+      const naturalW = mapImage?.naturalWidth || stageW || 1;
+      const naturalH = mapImage?.naturalHeight || stageH || 1;
+      const stageRatio = stageW / Math.max(stageH, 1);
+      const imageRatio = naturalW / Math.max(naturalH, 1);
+
+      let fittedW = stageW;
+      let fittedH = stageH;
+
+      if (imageRatio > stageRatio) {
+        fittedH = stageW / imageRatio;
+      } else {
+        fittedW = stageH * imageRatio;
+      }
+
+      return { stageW, stageH, fittedW, fittedH };
+    }
+
+    function clampMapPosition() {
+      const { stageW, stageH, fittedW, fittedH } = getFittedMapSize();
+      const scaledW = fittedW * mapScale;
+      const scaledH = fittedH * mapScale;
+      const maxX = Math.max(0, (scaledW - stageW) / 2);
+      const maxY = Math.max(0, (scaledH - stageH) / 2);
+      mapX = Math.max(-maxX, Math.min(maxX, mapX));
+      mapY = Math.max(-maxY, Math.min(maxY, mapY));
+    }
+
     function renderMapTransform() {
+      clampMapPosition();
       mapCanvas.style.transform = `translate(${mapX}px, ${mapY}px) scale(${mapScale})`;
     }
 
@@ -1078,7 +1106,7 @@
     });
 
     mapZoomOut?.addEventListener('click', () => {
-      mapScale = Math.max(0.6, +(mapScale - 0.2).toFixed(2));
+      mapScale = Math.max(1, +(mapScale - 0.2).toFixed(2));
       renderMapTransform();
     });
 
@@ -1114,9 +1142,12 @@
     mapStage?.addEventListener('wheel', (e) => {
       e.preventDefault();
       const delta = e.deltaY > 0 ? -0.15 : 0.15;
-      mapScale = Math.max(0.6, Math.min(4, +(mapScale + delta).toFixed(2)));
+      mapScale = Math.max(1, Math.min(4, +(mapScale + delta).toFixed(2)));
       renderMapTransform();
     }, { passive: false });
+
+    mapImage?.addEventListener('load', resetMapView);
+    window.addEventListener('resize', renderMapTransform);
 
     setMap('deserted-valley');
   </script>
