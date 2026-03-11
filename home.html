@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Blood Strike</title>
+  <title>Blood Strike — Striker Skill Introduction</title>
   <style>
     :root{
       --bg:#060b14;
@@ -640,7 +640,7 @@
     }
 
     .map-stage{
-      width:min(100%, clamp(320px, calc(100dvh - 260px), 760px));
+      width:min(100%, clamp(340px, calc(100dvh - 220px), 820px));
       align-self:center;
       margin-inline:auto;
     }
@@ -648,7 +648,7 @@
     @media (max-width: 1180px){
       .striker-roster{order:-1}
       .map-stage{
-        width:min(100%, calc(100dvh - 260px));
+        width:min(100%, calc(100dvh - 220px));
       }
     }
 
@@ -667,7 +667,7 @@
       .map-toolbar{align-items:flex-start}
       .map-toolbar-left h2{font-size:1.35rem}
       .map-stage{
-        width:min(100%, calc(100dvh - 300px));
+        width:min(100%, calc(100dvh - 250px));
       }
     }
 
@@ -692,7 +692,7 @@
       .map-controls{width:100%}
       .map-control-btn{flex:1}
       .map-stage{
-        width:min(100%, calc(100dvh - 280px));
+        width:min(100%, calc(100dvh - 240px));
       }
     }
   </style>
@@ -703,7 +703,7 @@
       <div class="side-top">
         <div class="logo-box">
           <img src="https://www.blood-strike.com/pc/gw/20230718104343/img/logo_810802e.png" alt="Blood Strike logo">
-          <small>Reference</small>
+          <small>Striker Skill Intro</small>
         </div>
 
         <div class="slot-nav">
@@ -1100,6 +1100,11 @@
     let isDragging = false;
     let dragStartX = 0;
     let dragStartY = 0;
+    let isTouchPanning = false;
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let pinchStartDistance = 0;
+    let pinchStartScale = 1;
 
     function getFittedMapSize() {
       const stageW = mapStage?.clientWidth || 0;
@@ -1175,6 +1180,7 @@
     mapReset?.addEventListener('click', resetMapView);
 
     mapStage?.addEventListener('pointerdown', (e) => {
+      if (e.pointerType === 'touch') return;
       isDragging = true;
       dragStartX = e.clientX - mapX;
       dragStartY = e.clientY - mapY;
@@ -1191,11 +1197,68 @@
 
     function endMapDrag(e) {
       isDragging = false;
+      isTouchPanning = false;
       mapStage?.classList.remove('dragging');
       if (e && mapStage?.hasPointerCapture?.(e.pointerId)) {
         mapStage.releasePointerCapture(e.pointerId);
       }
     }
+
+    function getTouchDistance(touches) {
+      const dx = touches[0].clientX - touches[1].clientX;
+      const dy = touches[0].clientY - touches[1].clientY;
+      return Math.hypot(dx, dy);
+    }
+
+    mapStage?.addEventListener('touchstart', (e) => {
+      if (e.touches.length === 1) {
+        isTouchPanning = true;
+        touchStartX = e.touches[0].clientX - mapX;
+        touchStartY = e.touches[0].clientY - mapY;
+        mapStage.classList.add('dragging');
+      } else if (e.touches.length === 2) {
+        isTouchPanning = false;
+        pinchStartDistance = getTouchDistance(e.touches);
+        pinchStartScale = mapScale;
+      }
+    }, { passive: true });
+
+    mapStage?.addEventListener('touchmove', (e) => {
+      if (e.touches.length === 2) {
+        e.preventDefault();
+        const nextDistance = getTouchDistance(e.touches);
+        if (pinchStartDistance > 0) {
+          mapScale = Math.max(1, Math.min(4, +(pinchStartScale * (nextDistance / pinchStartDistance)).toFixed(2)));
+          renderMapTransform();
+        }
+        return;
+      }
+
+      if (e.touches.length === 1 && isTouchPanning) {
+        e.preventDefault();
+        mapX = e.touches[0].clientX - touchStartX;
+        mapY = e.touches[0].clientY - touchStartY;
+        renderMapTransform();
+      }
+    }, { passive: false });
+
+    mapStage?.addEventListener('touchend', (e) => {
+      if ((mapScale <= 1) || !isTouchPanning) {
+        mapX = Math.round(mapX);
+        mapY = Math.round(mapY);
+      }
+      if (!e.touches || e.touches.length === 0) {
+        endMapDrag();
+      } else if (e.touches.length === 1) {
+        isTouchPanning = true;
+        touchStartX = e.touches[0].clientX - mapX;
+        touchStartY = e.touches[0].clientY - mapY;
+      }
+    });
+
+    mapStage?.addEventListener('touchcancel', () => {
+      endMapDrag();
+    });
 
     mapStage?.addEventListener('pointerup', endMapDrag);
     mapStage?.addEventListener('pointerleave', endMapDrag);
@@ -1209,6 +1272,7 @@
     }, { passive: false });
 
     mapImage?.addEventListener('load', resetMapView);
+    mapStage?.style.setProperty('touch-action', 'none');
     window.addEventListener('resize', renderMapTransform);
 
     setMap('deserted-valley');
