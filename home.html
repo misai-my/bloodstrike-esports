@@ -633,6 +633,68 @@
       .striker-hero img,
       .striker-hero video{max-height:300px}
     }
+  
+    /* Responsive layout overrides */
+    .map-viewer{
+      align-items:center;
+    }
+
+    .map-stage{
+      width:min(100%, clamp(320px, calc(100dvh - 260px), 760px));
+      align-self:center;
+      margin-inline:auto;
+    }
+
+    @media (max-width: 1180px){
+      .striker-roster{order:-1}
+      .map-stage{
+        width:min(100%, calc(100dvh - 260px));
+      }
+    }
+
+    @media (max-width: 860px){
+      .wrap{padding:14px}
+      .striker-showcase,
+      .striker-roster,
+      .content-card{padding:14px}
+      .striker-hero{min-height:300px;padding:14px}
+      .striker-hero img,
+      .striker-hero video{max-height:260px}
+      .map-layout{gap:14px}
+      .map-sidebar,
+      .map-viewer{padding:14px}
+      .map-btn{min-height:70px}
+      .map-toolbar{align-items:flex-start}
+      .map-toolbar-left h2{font-size:1.35rem}
+      .map-stage{
+        width:min(100%, calc(100dvh - 300px));
+      }
+    }
+
+    @media (max-width: 560px){
+      .wrap{padding:12px}
+      .section-head h1{font-size:clamp(1.6rem, 8vw, 2.3rem)}
+      .striker-showcase,
+      .striker-roster,
+      .content-card{padding:12px}
+      .striker-hero{min-height:260px;padding:12px}
+      .striker-hero img,
+      .striker-hero video{max-height:220px}
+      .striker-copy h2{font-size:1.5rem}
+      .skill-card{grid-template-columns:56px 1fr;padding:12px}
+      .skill-icon{width:56px;height:56px}
+      .roster-btn{grid-template-columns:46px 1fr;min-height:78px;padding:10px}
+      .roster-btn img{width:46px;height:46px}
+      .map-sidebar,
+      .map-viewer{padding:12px}
+      .map-toolbar-left h2{font-size:1.15rem}
+      .map-toolbar-left p{font-size:.86rem}
+      .map-controls{width:100%}
+      .map-control-btn{flex:1}
+      .map-stage{
+        width:min(100%, calc(100dvh - 280px));
+      }
+    }
   </style>
 </head>
 <body>
