@@ -179,6 +179,50 @@
       width:min(var(--max), 100%);
     }
 
+    .section-stack{
+      display:grid;
+      gap:24px;
+      width:min(var(--max), 100%);
+    }
+
+    .content-card{
+      border-radius:30px;
+      border:1px solid var(--line);
+      background:linear-gradient(180deg, rgba(11,22,40,.88), rgba(7,14,26,.96));
+      box-shadow:var(--shadow);
+      padding:22px;
+    }
+
+    .placeholder-grid{
+      display:grid;
+      grid-template-columns:repeat(3, minmax(0,1fr));
+      gap:14px;
+      margin-top:16px;
+    }
+
+    .placeholder-box{
+      min-height:170px;
+      border-radius:22px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.03);
+      padding:18px;
+      display:flex;
+      flex-direction:column;
+      justify-content:flex-end;
+      gap:8px;
+    }
+
+    .placeholder-box strong{
+      display:block;
+      font-size:1rem;
+    }
+
+    .placeholder-box span{
+      color:var(--muted);
+      line-height:1.55;
+      font-size:.92rem;
+    }
+
     .section-head{
       display:flex;
       align-items:end;
@@ -391,6 +435,7 @@
     @media (max-width: 1180px){
       .strikers-layout{grid-template-columns:1fr}
       .roster-grid{grid-template-columns:repeat(2, minmax(0,1fr))}
+      .placeholder-grid{grid-template-columns:1fr}
     }
 
     @media (max-width: 860px){
@@ -435,13 +480,13 @@
       <div class="side-top">
         <div class="logo-box">
           <img src="https://www.blood-strike.com/pc/gw/20230718104343/img/logo_810802e.png" alt="Blood Strike logo">
-          <small>Caster Reference</small>
+          <small>Reference</small>
         </div>
 
         <div class="slot-nav">
-          <button class="slot-btn active" type="button"><span class="slot-num">Slot 1</span>Striker</button>
-          <button class="slot-btn" type="button"><span class="slot-num">Slot 2</span>Map</button>
-          <button class="slot-btn" type="button"><span class="slot-num">Slot 3</span>Weapon</button>
+          <button class="slot-btn active" type="button" onclick="document.getElementById('striker-section').scrollIntoView({behavior:'smooth'})"><span class="slot-num">Slot 1</span>Striker</button>
+          <button class="slot-btn" type="button" onclick="document.getElementById('map-section').scrollIntoView({behavior:'smooth'})"><span class="slot-num">Slot 2</span>Map</button>
+          <button class="slot-btn" type="button" onclick="document.getElementById('weapon-section').scrollIntoView({behavior:'smooth'})"><span class="slot-num">Slot 3</span>Weapon</button>
           <button class="slot-btn" type="button"><span class="slot-num">Slot 4</span>Reserved</button>
         </div>
       </div>
@@ -453,7 +498,8 @@
 
     <main class="main">
       <div class="wrap">
-    <section class="section">
+    <div class="section-stack">
+    <section class="section" id="striker-section">
       <div class="section-head">
         <div>
           <div class="label">Striker Section</div>
@@ -523,6 +569,61 @@
         </div>
       </div>
     </section>
+
+    <section class="section" id="map-section">
+      <div class="content-card">
+        <div class="section-head">
+          <div>
+            <div class="label">Slot 2</div>
+            <h1>Map</h1>
+          </div>
+          <p>This section is ready for map layouts, tactical callouts, rotation notes, or clickable location guides.</p>
+        </div>
+
+        <div class="placeholder-grid">
+          <div class="placeholder-box">
+            <strong>Map Overview</strong>
+            <span>Use this card for a large preview, map image, or mode-specific battlefield summary.</span>
+          </div>
+          <div class="placeholder-box">
+            <strong>Key Zones</strong>
+            <span>Add hot drops, control zones, sniper lanes, or objective-heavy areas here.</span>
+          </div>
+          <div class="placeholder-box">
+            <strong>Rotation Notes</strong>
+            <span>Reserve this for pathing advice, anchor points, choke points, or team movement cues.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="weapon-section">
+      <div class="content-card">
+        <div class="section-head">
+          <div>
+            <div class="label">Slot 3</div>
+            <h1>Weapon</h1>
+          </div>
+          <p>This section is ready for weapon categories, damage profile summaries, recoil notes, or role-based gun recommendations.</p>
+        </div>
+
+        <div class="placeholder-grid">
+          <div class="placeholder-box">
+            <strong>Primary Weapons</strong>
+            <span>Add rifles, SMGs, snipers, or shotgun groups with your preferred sorting logic.</span>
+          </div>
+          <div class="placeholder-box">
+            <strong>Weapon Stats</strong>
+            <span>Use this for damage, fire rate, accuracy, mobility, or tier comparisons.</span>
+          </div>
+          <div class="placeholder-box">
+            <strong>Recommended Loadouts</strong>
+            <span>Place attachments, ideal engagement range, and striker synergy notes here.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
       </div>
     </main>
   </div>
