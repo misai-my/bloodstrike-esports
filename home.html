@@ -1105,6 +1105,11 @@
     let touchStartY = 0;
     let pinchStartDistance = 0;
     let pinchStartScale = 1;
+    let pinchStartMidX = 0;
+    let pinchStartMidY = 0;
+    let pinchStartMapX = 0;
+    let pinchStartMapY = 0;
+    let hadMultiTouch = false;
     let lastTapTime = 0;
     let lastTapX = 0;
     let lastTapY = 0;
@@ -1213,25 +1218,52 @@
       return Math.hypot(dx, dy);
     }
 
+    function getTouchMidpoint(touches) {
+      return {
+        x: (touches[0].clientX + touches[1].clientX) / 2,
+        y: (touches[0].clientY + touches[1].clientY) / 2
+      };
+    }
+
     mapStage?.addEventListener('touchstart', (e) => {
       if (e.touches.length === 1) {
         isTouchPanning = true;
+        hadMultiTouch = false;
         touchStartX = e.touches[0].clientX - mapX;
         touchStartY = e.touches[0].clientY - mapY;
         mapStage.classList.add('dragging');
       } else if (e.touches.length === 2) {
         isTouchPanning = false;
+        hadMultiTouch = true;
         pinchStartDistance = getTouchDistance(e.touches);
         pinchStartScale = mapScale;
+        const mid = getTouchMidpoint(e.touches);
+        pinchStartMidX = mid.x;
+        pinchStartMidY = mid.y;
+        pinchStartMapX = mapX;
+        pinchStartMapY = mapY;
+        mapStage.classList.add('dragging');
       }
     }, { passive: true });
 
     mapStage?.addEventListener('touchmove', (e) => {
       if (e.touches.length === 2) {
         e.preventDefault();
+        const rect = mapStage.getBoundingClientRect();
         const nextDistance = getTouchDistance(e.touches);
+        const mid = getTouchMidpoint(e.touches);
+
         if (pinchStartDistance > 0) {
-          mapScale = Math.max(1, Math.min(4, +(pinchStartScale * (nextDistance / pinchStartDistance)).toFixed(2)));
+          const nextScale = Math.max(1, Math.min(4, +(pinchStartScale * (nextDistance / pinchStartDistance)).toFixed(2)));
+          const startOffsetX = pinchStartMidX - rect.left - rect.width / 2;
+          const startOffsetY = pinchStartMidY - rect.top - rect.height / 2;
+          const currentOffsetX = mid.x - rect.left - rect.width / 2;
+          const currentOffsetY = mid.y - rect.top - rect.height / 2;
+          const ratio = nextScale / pinchStartScale;
+
+          mapX = currentOffsetX - ratio * (startOffsetX - pinchStartMapX);
+          mapY = currentOffsetY - ratio * (startOffsetY - pinchStartMapY);
+          mapScale = nextScale;
           renderMapTransform();
         }
         return;
@@ -1252,7 +1284,7 @@
       }
 
       if (!e.touches || e.touches.length === 0) {
-        if (e.changedTouches && e.changedTouches.length === 1) {
+        if (!hadMultiTouch && e.changedTouches && e.changedTouches.length === 1) {
           const now = Date.now();
           const tapX = e.changedTouches[0].clientX;
           const tapY = e.changedTouches[0].clientY;
@@ -1266,9 +1298,13 @@
             lastTapX = tapX;
             lastTapY = tapY;
           }
+        } else {
+          lastTapTime = 0;
         }
+        hadMultiTouch = false;
         endMapDrag();
       } else if (e.touches.length === 1) {
+        hadMultiTouch = false;
         isTouchPanning = true;
         touchStartX = e.touches[0].clientX - mapX;
         touchStartY = e.touches[0].clientY - mapY;
