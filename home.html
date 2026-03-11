@@ -835,7 +835,7 @@
 
             <div class="map-stage" id="mapStage">
               <div class="map-canvas" id="mapCanvas">
-                <img id="mapImage" src="img/maps/deserted-valley.png" alt="Deserted Valley map placeholder">
+                <img id="mapImage" src="img/maps/deserted-valley.png" alt="Deserted Valley map placeholder" draggable="false">
               </div>
             </div>
           </div>
@@ -1266,12 +1266,26 @@
 
     mapStage?.addEventListener('wheel', (e) => {
       e.preventDefault();
+      const rect = mapStage.getBoundingClientRect();
+      const prevScale = mapScale;
       const delta = e.deltaY > 0 ? -0.15 : 0.15;
-      mapScale = Math.max(1, Math.min(4, +(mapScale + delta).toFixed(2)));
+      const nextScale = Math.max(1, Math.min(4, +(mapScale + delta).toFixed(2)));
+      if (nextScale === prevScale) return;
+
+      const cursorOffsetX = e.clientX - rect.left - rect.width / 2;
+      const cursorOffsetY = e.clientY - rect.top - rect.height / 2;
+      const ratio = nextScale / prevScale;
+
+      mapX = cursorOffsetX - ratio * (cursorOffsetX - mapX);
+      mapY = cursorOffsetY - ratio * (cursorOffsetY - mapY);
+      mapScale = nextScale;
       renderMapTransform();
     }, { passive: false });
 
     mapImage?.addEventListener('load', resetMapView);
+    mapImage?.addEventListener('dragstart', (e) => e.preventDefault());
+    mapCanvas?.addEventListener('dragstart', (e) => e.preventDefault());
+    mapStage?.addEventListener('dragstart', (e) => e.preventDefault());
     mapStage?.style.setProperty('touch-action', 'none');
     window.addEventListener('resize', renderMapTransform);
 
