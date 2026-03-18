@@ -859,7 +859,7 @@
     function highlightStatNumbers(text) {
       const safe = escapeHtml(text).replace(/\s*\|\s*/g, '<br>');
       return safe.replace(
-        /(\b(?:Lv|LV|Level)\s?\d+\b|\b\d+(?:\.\d+)?(?:\s?(?:%|HP|hp|s|sec|secs|seconds?|m|ms|min|mins|minutes?|hrs?|hours?|km|cm|mm|xp|XP)))/g,
+        /(\b(?:Lv|LV|Level)\s?\d+\b|\b\d+(?:\.\d+)?(?:\s?(?:%|HP|hp|s|sec|secs|second|seconds|m|ms|min|mins|minute|minutes|hr|hrs|hour|hours|km|cm|mm|xp|XP))?)/g,
         '<span class="stat-num">$1</span>'
       );
     }
