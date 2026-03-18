@@ -692,28 +692,36 @@
             <div class="strikers-layout">
               <div class="striker-showcase">
                 <div class="striker-hero">
-                  <video id="strikerVideo" src="https://newspike-video.fp.ps.easebar.com/file/68b665fe5acc3e52fe049d93KSV5Jp8Q03" poster="img/striker/katya.png" autoplay muted loop playsinline controls></video>
+                  <video
+                    id="strikerVideo"
+                    poster="img/striker/blast.png"
+                    muted
+                    loop
+                    playsinline
+                    controls
+                    preload="none"
+                  ></video>
                 </div>
 
                 <div class="striker-copy">
                   <div class="label">Skill Introduction</div>
-                  <h2 id="strikerName">Katya</h2>
-                  <p id="strikerDesc">Katya is a fast-entry striker built around explosive mobility, sudden pressure, and stylish close-out potential.</p>
+                  <h2 id="strikerName">Blast</h2>
+                  <p id="strikerDesc">Blast brings explosive tempo and flashy disruption that can swing chaotic mid-round fights.</p>
                 </div>
 
                 <div class="skill-grid">
                   <div class="skill-card">
-                    <div class="skill-icon"><img id="skillImg1" src="img/skills/jn36_59d0b20.png" alt="Arc Kunai icon"></div>
+                    <div class="skill-icon"><img id="skillImg1" src="img/skills/jn17_6ae4b65.png" alt="Chaser Bomb icon" loading="lazy"></div>
                     <div>
-                      <strong id="skillName1">Arc Kunai</strong>
-                      <span id="skillDesc1">Throw an energy kunai to pressure space and force enemy movement.</span>
+                      <strong id="skillName1">Chaser Bomb</strong>
+                      <span id="skillDesc1">Deploy a bomb that pressures movement and keeps enemies from escaping cleanly.</span>
                     </div>
                   </div>
                   <div class="skill-card">
-                    <div class="skill-icon"><img id="skillImg2" src="img/skills/jn37_8a08289.png" alt="Phoenix Sky Dance icon"></div>
+                    <div class="skill-icon"><img id="skillImg2" src="img/skills/jn18_e3bde21.png" alt="Fireworks icon" loading="lazy"></div>
                     <div>
-                      <strong id="skillName2">Phoenix Sky Dance</strong>
-                      <span id="skillDesc2">Chain into a mobility-heavy follow-up that lets Katya close distance or reposition quickly.</span>
+                      <strong id="skillName2">Fireworks</strong>
+                      <span id="skillDesc2">Adds extra explosive payoff and rewards aggressive timing.</span>
                     </div>
                   </div>
                 </div>
@@ -728,25 +736,25 @@
                 </div>
 
                 <div class="roster-grid" id="rosterGrid">
-                  <button class="roster-btn" type="button" data-striker="alondra"><img src="img/striker/alondra.png" alt="Alondra"><div><strong>Alondra</strong><span>Arc Snare / Jetpack</span></div></button>
-                  <button class="roster-btn active" type="button" data-striker="blast"><img src="img/striker/blast.png" alt="Blast"><div><strong>Blast</strong><span>Chaser Bomb / Fireworks</span></div></button>
-                  <button class="roster-btn" type="button" data-striker="emma"><img src="img/striker/emma.png" alt="Emma"><div><strong>Emma</strong><span>Beetle Drone / First Aid</span></div></button>
-                  <button class="roster-btn" type="button" data-striker="emt"><img src="img/striker/emt.png" alt="EMT"><div><strong>EMT</strong><span>Healing Beacon / Virtuoso Medic</span></div></button>
-                  <button class="roster-btn" type="button" data-striker="ethan"><img src="img/striker/ethan.png" alt="Ethan"><div><strong>Ethan</strong><span>Protection Matrix / Power Slide</span></div></button>
-                  <button class="roster-btn" type="button" data-striker="hank"><img src="img/striker/hank.png" alt="Hank"><div><strong>Hank</strong><span>Defensive Turret / Head-on Fight</span></div></button>
-                  <button class="roster-btn" type="button" data-striker="jack"><img src="img/striker/jack.png" alt="Jack"><div><strong>Jack</strong><span>Scare Box / Party Bonanza</span></div></button>
-                  <button class="roster-btn" type="button" data-striker="jet"><img src="img/striker/jet.png" alt="Jet"><div><strong>Jet</strong><span>Missile Bombardment / Grenade Fanatic</span></div></button>
-                  <button class="roster-btn" type="button" data-striker="kainda"><img src="img/striker/kainda.png" alt="Kainda"><div><strong>Kainda</strong><span>Phasing Arrow / Scouting Arrow</span></div></button>
-                  <button class="roster-btn" type="button" data-striker="katya"><img src="img/striker/katya.png" alt="Katya"><div><strong>Katya</strong><span>Arc Kunai / Phoenix Sky Dance</span></div></button>
-                  <button class="roster-btn" type="button" data-striker="kraken"><img src="img/striker/kraken.png" alt="Kraken"><div><strong>Kraken</strong><span>Vortex / Scythe</span></div></button>
-                  <button class="roster-btn" type="button" data-striker="lucian"><img src="img/striker/lucian.png" alt="Lucian"><div><strong>Lucian</strong><span>Feigned Slumber / Echolocation</span></div></button>
-                  <button class="roster-btn" type="button" data-striker="nacho"><img src="img/striker/nacho.png" alt="Nacho"><div><strong>Nacho</strong><span>Hellfire / The Penitent Eyes</span></div></button>
-                  <button class="roster-btn" type="button" data-striker="nova"><img src="img/striker/nova.png" alt="Nova"><div><strong>Nova</strong><span>Toxic Grenade / Poison Master</span></div></button>
-                  <button class="roster-btn" type="button" data-striker="ran"><img src="img/striker/ran.png" alt="Ran"><div><strong>Ran</strong><span>Ice Barrier / Cryomancy</span></div></button>
-                  <button class="roster-btn" type="button" data-striker="spike"><img src="img/striker/spike.png" alt="Spike"><div><strong>Spike</strong><span>Assassination State / Charm</span></div></button>
-                  <button class="roster-btn" type="button" data-striker="val"><img src="img/striker/val.png" alt="Val"><div><strong>Val</strong><span>Dynamic Detection Field / Swift Mark</span></div></button>
-                  <button class="roster-btn" type="button" data-striker="volt"><img src="img/striker/volt.png" alt="Volt"><div><strong>Volt</strong><span>Electromagnetic Pulse / Coursing Currents</span></div></button>
-                  <button class="roster-btn" type="button" data-striker="zero"><img src="img/striker/zero.png" alt="Zero"><div><strong>Zero</strong><span>Shadowstrike / Sword Master</span></div></button>
+                  <button class="roster-btn" type="button" data-striker="alondra"><img src="img/striker/alondra.png" alt="Alondra" loading="lazy"><div><strong>Alondra</strong><span>Arc Snare / Jetpack</span></div></button>
+                  <button class="roster-btn active" type="button" data-striker="blast"><img src="img/striker/blast.png" alt="Blast" loading="lazy"><div><strong>Blast</strong><span>Chaser Bomb / Fireworks</span></div></button>
+                  <button class="roster-btn" type="button" data-striker="emma"><img src="img/striker/emma.png" alt="Emma" loading="lazy"><div><strong>Emma</strong><span>Beetle Drone / First Aid</span></div></button>
+                  <button class="roster-btn" type="button" data-striker="emt"><img src="img/striker/emt.png" alt="EMT" loading="lazy"><div><strong>EMT</strong><span>Healing Beacon / Virtuoso Medic</span></div></button>
+                  <button class="roster-btn" type="button" data-striker="ethan"><img src="img/striker/ethan.png" alt="Ethan" loading="lazy"><div><strong>Ethan</strong><span>Protection Matrix / Power Slide</span></div></button>
+                  <button class="roster-btn" type="button" data-striker="hank"><img src="img/striker/hank.png" alt="Hank" loading="lazy"><div><strong>Hank</strong><span>Defensive Turret / Head-on Fight</span></div></button>
+                  <button class="roster-btn" type="button" data-striker="jack"><img src="img/striker/jack.png" alt="Jack" loading="lazy"><div><strong>Jack</strong><span>Scare Box / Party Bonanza</span></div></button>
+                  <button class="roster-btn" type="button" data-striker="jet"><img src="img/striker/jet.png" alt="Jet" loading="lazy"><div><strong>Jet</strong><span>Missile Bombardment / Grenade Fanatic</span></div></button>
+                  <button class="roster-btn" type="button" data-striker="kainda"><img src="img/striker/kainda.png" alt="Kainda" loading="lazy"><div><strong>Kainda</strong><span>Phasing Arrow / Scouting Arrow</span></div></button>
+                  <button class="roster-btn" type="button" data-striker="katya"><img src="img/striker/katya.png" alt="Katya" loading="lazy"><div><strong>Katya</strong><span>Arc Kunai / Phoenix Sky Dance</span></div></button>
+                  <button class="roster-btn" type="button" data-striker="kraken"><img src="img/striker/kraken.png" alt="Kraken" loading="lazy"><div><strong>Kraken</strong><span>Vortex / Scythe</span></div></button>
+                  <button class="roster-btn" type="button" data-striker="lucian"><img src="img/striker/lucian.png" alt="Lucian" loading="lazy"><div><strong>Lucian</strong><span>Feigned Slumber / Echolocation</span></div></button>
+                  <button class="roster-btn" type="button" data-striker="nacho"><img src="img/striker/nacho.png" alt="Nacho" loading="lazy"><div><strong>Nacho</strong><span>Hellfire / The Penitent Eyes</span></div></button>
+                  <button class="roster-btn" type="button" data-striker="nova"><img src="img/striker/nova.png" alt="Nova" loading="lazy"><div><strong>Nova</strong><span>Toxic Grenade / Poison Master</span></div></button>
+                  <button class="roster-btn" type="button" data-striker="ran"><img src="img/striker/ran.png" alt="Ran" loading="lazy"><div><strong>Ran</strong><span>Ice Barrier / Cryomancy</span></div></button>
+                  <button class="roster-btn" type="button" data-striker="spike"><img src="img/striker/spike.png" alt="Spike" loading="lazy"><div><strong>Spike</strong><span>Assassination State / Charm</span></div></button>
+                  <button class="roster-btn" type="button" data-striker="val"><img src="img/striker/val.png" alt="Val" loading="lazy"><div><strong>Val</strong><span>Dynamic Detection Field / Swift Mark</span></div></button>
+                  <button class="roster-btn" type="button" data-striker="volt"><img src="img/striker/volt.png" alt="Volt" loading="lazy"><div><strong>Volt</strong><span>Electromagnetic Pulse / Coursing Currents</span></div></button>
+                  <button class="roster-btn" type="button" data-striker="zero"><img src="img/striker/zero.png" alt="Zero" loading="lazy"><div><strong>Zero</strong><span>Shadowstrike / Sword Master</span></div></button>
                 </div>
               </div>
             </div>
@@ -794,7 +802,7 @@
 
                   <div class="map-stage" id="mapStage">
                     <div class="map-canvas" id="mapCanvas">
-                      <img id="mapImage" src="img/maps/deserted-valley.png" alt="Deserted Valley map placeholder" draggable="false">
+                      <img id="mapImage" src="img/maps/deserted-valley.png" alt="Deserted Valley map placeholder" draggable="false" loading="lazy">
                     </div>
                   </div>
                 </div>
@@ -883,7 +891,7 @@
         image: 'img/striker/jet.png',
         video: 'https://comm.v.easebar.com/nie/2023/0912/8f0b2e918a55c38ab007d22169babdfbqt.mp4',
         desc: 'Jet is an explosive-heavy striker built to crack setups and punish teams holding tight positions.',
-        skill1: { name: 'Missile Bombardment', image: 'img/skills/jn3_7a72ed8.png', desc: 'Calls 7 intercontinental ballistic missiles to bombard the target area, the first 3 missiles will accurately attack the target area and the attack range of the subsequent missiles will be increased to a 25m radius, each missile deals 150 damage. || -Lv3: Enhance the missile damage by 50. || -LV5: Extra 4  missile bombardment attempts.' },
+        skill1: { name: 'Missile Bombardment', image: 'img/skills/jn3_7a72ed8.png', desc: 'Calls 7 intercontinental ballistic missiles to bombard the target area, the first 3 missiles will accurately attack the target area and the attack range of the subsequent missiles will be increased to a 25m radius, each missile deals 150 damage. || -Lv3: Enhance the missile damage by 50. || -LV5: Extra 4 missile bombardment attempts.' },
         skill2: { name: 'Grenade Fanatic', image: 'img/skills/jn4_3d7a87e.png', desc: '[Passive Skill] Allows you to carry 1 extra grenade per throwable slot.' },
         skill3: { name: 'Focus Storm', image: '', desc: 'Shoots out a beam that can go through buildings to deal damage to enemies around.' }
       },
@@ -919,7 +927,7 @@
         image: 'img/striker/spike.png',
         video: 'https://newspike-video.fp.ps.easebar.com/file/6763d3dffb92161cf2a27b7c747aZcjH03',
         desc: 'Spike is an assassin-style striker made for sudden engagements and slippery kill pressure.',
-        skill1: { name: 'Illusion', image: 'img/skills/jn11_494d65c.png', desc: 'Creates an illusion of yourself while entering stealth mode for 10 seconds. Attacking or other offensive actions will end stealth. Cooldown: 60 seconds. || -Lv3: Increases movement speed by 10% when the skill is activated. || -Lv5: ' },
+        skill1: { name: 'Illusion', image: 'img/skills/jn11_494d65c.png', desc: 'Creates an illusion of yourself while entering stealth mode for 10 seconds. Attacking or other offensive actions will end stealth. Cooldown: 60 seconds. || -Lv3: Increases movement speed by 10% when the skill is activated. || -Lv5:' },
         skill2: { name: 'Charm', image: 'img/skills/jn12_40965e0.png', desc: 'Adds deceptive close-fight value and helps Spike manipulate pressure windows.' }
       },
       hank: {
@@ -928,7 +936,7 @@
         video: 'https://comm.v.easebar.com/nie/2023/0912/e9be6971441d32e6887bd12488a06e68qt.mp4',
         desc: 'Hank is a sturdy hold-position striker who excels when locking down lanes and absorbing pressure.',
         skill1: { name: 'Defensive Turret', image: 'img/skills/jn13_5e3168b.png', desc: 'Deploy a turret that automatically attacks enemies. The turret has 100 HP and deals 15 damage to an enemy within 20m.' },
-        skill2: { name: 'Head-on Fight', image: 'img/skills/jn14_eb24852.png', desc: '[Passive Skill] Increases the CQB damage of SMGs and shotguns by 5% (&lt;30m).' }
+        skill2: { name: 'Head-on Fight', image: 'img/skills/jn14_eb24852.png', desc: '[Passive Skill] Increases the CQB damage of SMGs and shotguns by 5% (<30m).' }
       },
       emt: {
         name: 'EMT',
@@ -1066,27 +1074,20 @@
     window.addEventListener('scroll', updateActiveSlotOnScroll, { passive: true });
     window.addEventListener('resize', updateActiveSlotOnScroll);
 
-    function setStriker(key) {
+    function clearVideoSource() {
+      strikerVideo.pause();
+      strikerVideo.removeAttribute('src');
+      strikerVideo.load();
+    }
+
+    function setStriker(key, loadVideo = false) {
       const data = strikerData[key];
       if (!data) return;
 
       strikerName.textContent = data.name;
       strikerDesc.innerHTML = highlightStatNumbers(data.desc);
 
-      strikerVideo.pause();
       strikerVideo.poster = data.image;
-
-      if (data.video) {
-        strikerVideo.src = data.video;
-        strikerVideo.load();
-        const playPromise = strikerVideo.play();
-        if (playPromise && typeof playPromise.catch === 'function') {
-          playPromise.catch(() => {});
-        }
-      } else {
-        strikerVideo.removeAttribute('src');
-        strikerVideo.load();
-      }
 
       skillName1.textContent = data.skill1.name;
       skillDesc1.innerHTML = highlightStatNumbers(data.skill1.desc);
@@ -1097,6 +1098,14 @@
       skillDesc2.innerHTML = highlightStatNumbers(data.skill2.desc);
       skillImg2.src = data.skill2.image;
       skillImg2.alt = `${data.skill2.name} icon`;
+
+      if (!loadVideo || !data.video) {
+        clearVideoSource();
+        return;
+      }
+
+      strikerVideo.src = data.video;
+      strikerVideo.load();
     }
 
     if (rosterGrid) {
@@ -1107,7 +1116,7 @@
         const key = btn.dataset.striker;
         strikerButtons.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        setStriker(key);
+        setStriker(key, true);
       });
     }
 
@@ -1116,9 +1125,9 @@
       document.querySelector('.roster-btn[data-striker="blast"]');
 
     if (defaultStrikerBtn) {
-      setStriker(defaultStrikerBtn.dataset.striker);
+      setStriker(defaultStrikerBtn.dataset.striker, false);
     } else {
-      setStriker('katya');
+      setStriker('katya', false);
     }
 
     const mapData = {
