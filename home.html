@@ -424,6 +424,7 @@
       align-items:center;
       justify-content:center;
       padding:18px;
+      margin-top:4px;
     }
 
     .striker-hero img,
@@ -437,6 +438,12 @@
       display:block;
     }
 
+    .striker-copy{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    
     .striker-copy h2{
       margin:10px 0 8px;
       font-size:2rem;
@@ -691,6 +698,12 @@
 
             <div class="strikers-layout">
               <div class="striker-showcase">
+                <div class="striker-copy">
+                  <div class="label">Skill Introduction</div>
+                  <h2 id="strikerName">Blast</h2>
+                  <p id="strikerDesc">Blast brings explosive tempo and flashy disruption that can swing chaotic mid-round fights.</p>
+                </div>
+                
                 <div class="striker-hero">
                   <video
                     id="strikerVideo"
@@ -701,12 +714,6 @@
                     controls
                     preload="none"
                   ></video>
-                </div>
-
-                <div class="striker-copy">
-                  <div class="label">Skill Introduction</div>
-                  <h2 id="strikerName">Blast</h2>
-                  <p id="strikerDesc">Blast brings explosive tempo and flashy disruption that can swing chaotic mid-round fights.</p>
                 </div>
 
                 <div class="skill-grid">
