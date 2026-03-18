@@ -581,7 +581,7 @@
     }
 
     .stat-num{
-      color:var(--yellow);
+      color:#f8ea43 !important;
       font-weight:800;
       text-shadow:0 0 10px rgba(248,234,67,.18);
     }
@@ -855,7 +855,7 @@
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#39;');
     }
-
+    
     function highlightStatNumbers(text) {
       const safe = escapeHtml(text).replace(/\s*\|\s*/g, '<br>');
       return safe.replace(
@@ -1037,7 +1037,10 @@
 
       strikerName.textContent = data.name;
       strikerDesc.innerHTML = highlightStatNumbers(data.desc);
-
+      skillDesc1.innerHTML = highlightStatNumbers(data.skill1.desc);
+      skillDesc2.innerHTML = highlightStatNumbers(data.skill2.desc);
+      mapDesc.innerHTML = highlightStatNumbers(data.desc);
+      
       strikerVideo.pause();
       strikerVideo.poster = data.image;
 
@@ -1369,7 +1372,7 @@
     mapStage?.style.setProperty('touch-action', 'none');
     window.addEventListener('resize', renderMapTransform);
 
-    document.querySelectorAll('.map-btn span, .placeholder-box span').forEach((el) => {
+    document.querySelectorAll('.map-btn span, .placeholder-box span, .mini-note').forEach((el) => {
       el.innerHTML = highlightStatNumbers(el.textContent);
     });
 
