@@ -287,6 +287,7 @@
       display:flex;
       flex-direction:column;
       gap:14px;
+      align-items:center;
     }
 
     .map-toolbar{
@@ -295,6 +296,7 @@
       justify-content:space-between;
       gap:12px;
       flex-wrap:wrap;
+      width:100%;
     }
 
     .map-toolbar-left h2{
@@ -332,7 +334,7 @@
 
     .map-stage{
       position:relative;
-      width:100%;
+      width:min(100%, clamp(340px, calc(100dvh - 220px), 820px));
       aspect-ratio:1 / 1;
       min-height:0;
       border-radius:22px;
@@ -343,6 +345,8 @@
         linear-gradient(180deg, rgba(19,44,77,.72), rgba(7,14,26,.96));
       cursor:grab;
       touch-action:none;
+      align-self:center;
+      margin-inline:auto;
     }
 
     .map-stage.dragging{cursor:grabbing}
@@ -365,20 +369,6 @@
       -webkit-user-drag:none;
       pointer-events:none;
       filter:drop-shadow(0 18px 30px rgba(0,0,0,.32));
-    }
-
-    .map-empty{
-      position:absolute;
-      inset:auto 18px 18px 18px;
-      padding:12px 14px;
-      border-radius:16px;
-      background:rgba(7,15,28,.78);
-      border:1px solid rgba(255,255,255,.08);
-      color:var(--muted);
-      font-size:.88rem;
-      line-height:1.5;
-      z-index:2;
-      backdrop-filter:blur(10px);
     }
 
     .section-head{
@@ -590,6 +580,12 @@
       line-height:1.45;
     }
 
+    .stat-num{
+      color:var(--yellow);
+      font-weight:800;
+      text-shadow:0 0 10px rgba(248,234,67,.18);
+    }
+
     @media (max-width: 1180px){
       .strikers-layout{grid-template-columns:1fr}
       .roster-grid{grid-template-columns:repeat(2, minmax(0,1fr))}
@@ -597,6 +593,10 @@
       .map-layout{grid-template-columns:1fr}
       .map-sidebar,
       .map-viewer{min-height:auto}
+      .striker-roster{order:-1}
+      .map-stage{
+        width:min(100%, calc(100dvh - 220px));
+      }
     }
 
     @media (max-width: 860px){
@@ -625,34 +625,10 @@
       .slot-nav{display:flex;flex-wrap:wrap;width:auto}
       .slot-btn{min-width:100px;width:auto;padding:10px 12px}
       .slot-note{width:auto;min-width:120px}
-      .wrap{padding:16px}
+      .wrap{padding:14px}
       .section-head{align-items:start;flex-direction:column}
       .skill-grid,
       .roster-grid{grid-template-columns:1fr}
-      .striker-hero{min-height:340px}
-      .striker-hero img,
-      .striker-hero video{max-height:300px}
-    }
-
-    .map-viewer{
-      align-items:center;
-    }
-
-    .map-stage{
-      width:min(100%, clamp(340px, calc(100dvh - 220px), 820px));
-      align-self:center;
-      margin-inline:auto;
-    }
-
-    @media (max-width: 1180px){
-      .striker-roster{order:-1}
-      .map-stage{
-        width:min(100%, calc(100dvh - 220px));
-      }
-    }
-
-    @media (max-width: 860px){
-      .wrap{padding:14px}
       .striker-showcase,
       .striker-roster,
       .content-card{padding:14px}
@@ -765,7 +741,7 @@
                 </div>
 
                 <div class="roster-grid" id="rosterGrid">
-                  <button class="roster-btn" type="button" data-striker="alondra"><img src="img/striker/alondra.png" alt="Blast"><div><strong>Alondra</strong><span>Arc Snare / Jetpack</span></div></button>
+                  <button class="roster-btn" type="button" data-striker="alondra"><img src="img/striker/alondra.png" alt="Alondra"><div><strong>Alondra</strong><span>Arc Snare / Jetpack</span></div></button>
                   <button class="roster-btn active" type="button" data-striker="blast"><img src="img/striker/blast.png" alt="Blast"><div><strong>Blast</strong><span>Chaser Bomb / Fireworks</span></div></button>
                   <button class="roster-btn" type="button" data-striker="emma"><img src="img/striker/emma.png" alt="Emma"><div><strong>Emma</strong><span>Beetle Drone / First Aid</span></div></button>
                   <button class="roster-btn" type="button" data-striker="emt"><img src="img/striker/emt.png" alt="EMT"><div><strong>EMT</strong><span>Healing Beacon / Virtuoso Medic</span></div></button>
@@ -871,6 +847,23 @@
   </div>
 
   <script>
+    function escapeHtml(text) {
+      return String(text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function highlightStatNumbers(text) {
+      const safe = escapeHtml(text);
+      return safe.replace(
+        /((?:\b(?:Lv|LV|Level)\s?\d+\b)|(?:\b\d+(?:\.\d+)?(?:\s?(?:x|×|-)\s?\d+(?:\.\d+)?)?(?:\s?(?:%|HP|hp|s|sec|secs|seconds?|m|ms|min|mins|minutes?|hrs?|hours?|km|cm|mm|xp|XP))?\b))/g,
+        '<span class="stat-num">$1</span>'
+      );
+    }
+
     const strikerData = {
       ethan: {
         name: 'Ethan',
@@ -918,7 +911,7 @@
         video: 'https://newspike-video.fp.ps.easebar.com/file/682dc45ae23957f6fe667c46iICu1WNo03',
         desc: 'Kraken is a disruptive close-fight striker who turns enemy formations into chaos.',
         skill1: { name: 'Vortex', image: 'img/skills/jn7_8e60d05.png', desc: 'Summons a raven with 5HP to cruise at the selected altitude. During its flight, it will release a delayed blinding effect on targets within 10m radius.' },
-        skill2: { name: 'Scythe', image: 'img/skills/jn8_8728a07.png', desc: "[Passive Skill] After a kill or assist a soul orb will spawn at the victim's location. KRAKEN absorbs the soul orb to restore 45 HP." }
+        skill2: { name: 'Scythe', image: 'img/skills/jn8_8728a07.png', desc: '[Passive Skill] After a kill or assist a soul orb will spawn at the victim&#39;s location. KRAKEN absorbs the soul orb to restore 45 HP.' }
       },
       val: {
         name: 'Val',
@@ -942,7 +935,7 @@
         video: 'https://comm.v.easebar.com/nie/2023/0912/e9be6971441d32e6887bd12488a06e68qt.mp4',
         desc: 'Hank is a sturdy hold-position striker who excels when locking down lanes and absorbing pressure.',
         skill1: { name: 'Defensive Turret', image: 'img/skills/jn13_5e3168b.png', desc: 'Deploy a turret that automatically attacks enemies. The turret has 100 HP and deals 15 damage to an enemy within 20m.' },
-        skill2: { name: 'Head-on Fight', image: 'img/skills/jn14_eb24852.png', desc: '[Passive Skill] Increases the CQB damage of SMGs and shotguns by 5% (<30m).' }
+        skill2: { name: 'Head-on Fight', image: 'img/skills/jn14_eb24852.png', desc: '[Passive Skill] Increases the CQB damage of SMGs and shotguns by 5% (&lt;30m).' }
       },
       emt: {
         name: 'EMT',
@@ -1043,23 +1036,30 @@
       if (!data) return;
 
       strikerName.textContent = data.name;
-      strikerDesc.textContent = data.desc;
-      strikerVideo.poster = data.image;
-      strikerVideo.src = data.video;
-      strikerVideo.load();
+      strikerDesc.innerHTML = highlightStatNumbers(data.desc);
 
-      const playPromise = strikerVideo.play();
-      if (playPromise && typeof playPromise.catch === 'function') {
-        playPromise.catch(() => {});
+      strikerVideo.pause();
+      strikerVideo.poster = data.image;
+
+      if (data.video) {
+        strikerVideo.src = data.video;
+        strikerVideo.load();
+        const playPromise = strikerVideo.play();
+        if (playPromise && typeof playPromise.catch === 'function') {
+          playPromise.catch(() => {});
+        }
+      } else {
+        strikerVideo.removeAttribute('src');
+        strikerVideo.load();
       }
 
       skillName1.textContent = data.skill1.name;
-      skillDesc1.textContent = data.skill1.desc;
+      skillDesc1.innerHTML = highlightStatNumbers(data.skill1.desc);
       skillImg1.src = data.skill1.image;
       skillImg1.alt = `${data.skill1.name} icon`;
 
       skillName2.textContent = data.skill2.name;
-      skillDesc2.textContent = data.skill2.desc;
+      skillDesc2.innerHTML = highlightStatNumbers(data.skill2.desc);
       skillImg2.src = data.skill2.image;
       skillImg2.alt = `${data.skill2.name} icon`;
     }
@@ -1180,7 +1180,7 @@
       const data = mapData[key];
       if (!data) return;
       mapTitle.textContent = data.title;
-      mapDesc.textContent = data.desc;
+      mapDesc.innerHTML = highlightStatNumbers(data.desc);
       mapImage.src = data.image;
       mapImage.alt = `${data.title} map image`;
       resetMapView();
@@ -1368,6 +1368,10 @@
     mapStage?.addEventListener('dragstart', (e) => e.preventDefault());
     mapStage?.style.setProperty('touch-action', 'none');
     window.addEventListener('resize', renderMapTransform);
+
+    document.querySelectorAll('.map-btn span, .placeholder-box span').forEach((el) => {
+      el.innerHTML = highlightStatNumbers(el.textContent);
+    });
 
     setMap('deserted-valley');
   </script>
