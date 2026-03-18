@@ -848,21 +848,21 @@
 
   <script>
     function escapeHtml(text) {
-      return String(text)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;');
-    }
-    
-    function highlightStatNumbers(text) {
-      const safe = escapeHtml(text).replace(/\s*\|\s*/g, '<br>');
-      return safe.replace(
-        /(\b(?:Lv|LV|Level)\s?\d+\b|\b\d+(?:\.\d+)?(?:\s?(?:%|HP|hp|s|sec|secs|second|seconds|m|ms|min|mins|minute|minutes|hr|hrs|hour|hours|km|cm|mm|xp|XP))?)/g,
-        '<span class="stat-num">$1</span>'
-      );
-    }
+    return String(text)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+  
+  function highlightStatNumbers(text) {
+    const safe = escapeHtml(text).replace(/\s*\|\s*/g, '<br>');
+    return safe.replace(
+      /\b(?:Lv|LV|Level)\s?\d+\b|\b\d+(?:\.\d+)?(?:\s?(?:seconds?|secs?|minutes?|mins?|hours?|hrs?|milliseconds?|ms|HP|hp|%|km|cm|mm|meters?|meter|m|xp|XP))?\b/g,
+      '<span class="stat-num">$&</span>'
+    );
+  }
 
     const strikerData = {
       ethan: {
