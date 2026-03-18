@@ -132,6 +132,7 @@
       font-weight:800;
       letter-spacing:.08em;
       transition:.25s ease;
+      cursor:pointer;
     }
 
     .slot-btn .slot-num{
@@ -149,20 +150,6 @@
       color:#fff8c6;
     }
 
-    .slot-note{
-      width:100%;
-      padding:12px 10px;
-      border-radius:18px;
-      border:1px solid rgba(255,255,255,.07);
-      background:rgba(255,255,255,.03);
-      color:var(--muted);
-      text-align:center;
-      font-size:.68rem;
-      line-height:1.45;
-      text-transform:uppercase;
-      letter-spacing:.08em;
-    }
-
     .main{
       min-height:100vh;
     }
@@ -177,6 +164,7 @@
 
     .section{
       width:min(var(--max), 100%);
+      scroll-margin-top:20px;
     }
 
     .section-stack{
@@ -624,7 +612,6 @@
       .logo-box img{width:58px}
       .slot-nav{display:flex;flex-wrap:wrap;width:auto}
       .slot-btn{min-width:100px;width:auto;padding:10px 12px}
-      .slot-note{width:auto;min-width:120px}
       .wrap{padding:14px}
       .section-head{align-items:start;flex-direction:column}
       .skill-grid,
@@ -682,9 +669,9 @@
         </div>
 
         <div class="slot-nav">
-          <button class="slot-btn active" type="button" onclick="document.getElementById('striker-section').scrollIntoView({behavior:'smooth'})"><span class="slot-num">Slot 1</span>Striker</button>
-          <button class="slot-btn" type="button" onclick="document.getElementById('map-section').scrollIntoView({behavior:'smooth'})"><span class="slot-num">Slot 2</span>Map</button>
-          <button class="slot-btn" type="button" onclick="document.getElementById('weapon-section').scrollIntoView({behavior:'smooth'})"><span class="slot-num">Slot 3</span>Weapon</button>
+          <button class="slot-btn active" type="button" data-target="striker-section"><span class="slot-num">Slot 1</span>Striker</button>
+          <button class="slot-btn" type="button" data-target="map-section"><span class="slot-num">Slot 2</span>Map</button>
+          <button class="slot-btn" type="button" data-target="weapon-section"><span class="slot-num">Slot 3</span>Weapon</button>
           <button class="slot-btn" type="button"><span class="slot-num">Slot 4</span>Reserved</button>
         </div>
       </div>
@@ -848,21 +835,21 @@
 
   <script>
     function escapeHtml(text) {
-    return String(text)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#39;');
-  }
-  
-  function highlightStatNumbers(text) {
-    const safe = escapeHtml(text).replace(/\s*\|\s*/g, '<br>');
-    return safe.replace(
-      /\b(?:Lv|LV|Level)\s?\d+\b|\b\d+(?:\.\d+)?(?:\s?(?:seconds?|secs?|minutes?|mins?|hours?|hrs?|milliseconds?|ms|HP|hp|%|km|cm|mm|meters?|meter|m|xp|XP))?\b/g,
-      '<span class="stat-num">$&</span>'
-    );
-  }
+      return String(text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function highlightStatNumbers(text) {
+      const safe = escapeHtml(text).replace(/\s*\|\s*/g, '<br>');
+      return safe.replace(
+        /\b(?:Lv|LV|Level)\s?\d+\b|\b\d+(?:\.\d+)?(?:\s?(?:seconds?|secs?|minutes?|mins?|hours?|hrs?|milliseconds?|ms|HP|hp|%|km|cm|mm|meters?|meter|m|xp|XP))?\b/g,
+        '<span class="stat-num">$&</span>'
+      );
+    }
 
     const strikerData = {
       ethan: {
@@ -894,7 +881,7 @@
         image: 'img/striker/jet.png',
         video: 'https://comm.v.easebar.com/nie/2023/0912/8f0b2e918a55c38ab007d22169babdfbqt.mp4',
         desc: 'Jet is an explosive-heavy striker built to crack setups and punish teams holding tight positions.',
-        skill1: { name: 'Missile Bombardment', image: 'img/skills/jn3_7a72ed8.png', desc: 'Calls 7 intercontinental ballistic missiles to bombard the target area, the first 3  missiles will accurately attack the target area and the attack range of the subsequent missiles will be increased to a 25m radius, each missile deals 150 damage.' },
+        skill1: { name: 'Missile Bombardment', image: 'img/skills/jn3_7a72ed8.png', desc: 'Calls 7 intercontinental ballistic missiles to bombard the target area, the first 3 missiles will accurately attack the target area and the attack range of the subsequent missiles will be increased to a 25m radius, each missile deals 150 damage.' },
         skill2: { name: 'Grenade Fanatic', image: 'img/skills/jn4_3d7a87e.png', desc: '[Passive Skill] Allows you to carry 1 extra grenade per throwable slot.' }
       },
       nova: {
@@ -1031,16 +1018,55 @@
     const skillDesc2 = document.getElementById('skillDesc2');
     const skillImg2 = document.getElementById('skillImg2');
 
+    const mapButtons = document.querySelectorAll('.map-btn');
+    const mapTitle = document.getElementById('mapTitle');
+    const mapDesc = document.getElementById('mapDesc');
+    const mapImage = document.getElementById('mapImage');
+    const mapStage = document.getElementById('mapStage');
+    const mapCanvas = document.getElementById('mapCanvas');
+    const mapZoomIn = document.getElementById('mapZoomIn');
+    const mapZoomOut = document.getElementById('mapZoomOut');
+    const mapReset = document.getElementById('mapReset');
+
+    const slotButtons = document.querySelectorAll('.slot-btn[data-target]');
+    const trackedSections = Array.from(slotButtons)
+      .map(btn => document.getElementById(btn.dataset.target))
+      .filter(Boolean);
+
+    function setActiveSlot(id) {
+      slotButtons.forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.target === id);
+      });
+    }
+
+    slotButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = document.getElementById(btn.dataset.target);
+        if (!target) return;
+        setActiveSlot(btn.dataset.target);
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+
+    function updateActiveSlotOnScroll() {
+      const offset = window.scrollY + 180;
+      let activeId = trackedSections[0]?.id || 'striker-section';
+      trackedSections.forEach(section => {
+        if (section.offsetTop <= offset) activeId = section.id;
+      });
+      setActiveSlot(activeId);
+    }
+
+    window.addEventListener('scroll', updateActiveSlotOnScroll, { passive: true });
+    window.addEventListener('resize', updateActiveSlotOnScroll);
+
     function setStriker(key) {
       const data = strikerData[key];
       if (!data) return;
 
       strikerName.textContent = data.name;
       strikerDesc.innerHTML = highlightStatNumbers(data.desc);
-      skillDesc1.innerHTML = highlightStatNumbers(data.skill1.desc);
-      skillDesc2.innerHTML = highlightStatNumbers(data.skill2.desc);
-      mapDesc.innerHTML = highlightStatNumbers(data.desc);
-      
+
       strikerVideo.pause();
       strikerVideo.poster = data.image;
 
@@ -1106,16 +1132,6 @@
         desc: 'Ready for island control zones, flank paths, and elevated positioning references.'
       }
     };
-
-    const mapButtons = document.querySelectorAll('.map-btn');
-    const mapTitle = document.getElementById('mapTitle');
-    const mapDesc = document.getElementById('mapDesc');
-    const mapImage = document.getElementById('mapImage');
-    const mapStage = document.getElementById('mapStage');
-    const mapCanvas = document.getElementById('mapCanvas');
-    const mapZoomIn = document.getElementById('mapZoomIn');
-    const mapZoomOut = document.getElementById('mapZoomOut');
-    const mapReset = document.getElementById('mapReset');
 
     let mapScale = 1;
     let mapX = 0;
@@ -1370,13 +1386,18 @@
     mapCanvas?.addEventListener('dragstart', (e) => e.preventDefault());
     mapStage?.addEventListener('dragstart', (e) => e.preventDefault());
     mapStage?.style.setProperty('touch-action', 'none');
-    window.addEventListener('resize', renderMapTransform);
+
+    window.addEventListener('resize', () => {
+      renderMapTransform();
+      updateActiveSlotOnScroll();
+    });
 
     document.querySelectorAll('.map-btn span, .placeholder-box span, .mini-note').forEach((el) => {
       el.innerHTML = highlightStatNumbers(el.textContent);
     });
 
     setMap('deserted-valley');
+    updateActiveSlotOnScroll();
   </script>
 </body>
 </html>
